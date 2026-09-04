@@ -19,7 +19,7 @@
   --steel-300:#9AA6B4;  /* texto secundario sobre navy 7,03:1 */
   --ink-900:#17212B;
   --ink-700:#2A3138;
-  --ink-500:#5B6470;
+  --ink-500:#555E6A;
 
   --ff-display:'Archivo',system-ui,sans-serif;
   --ff-body:'Spline Sans',system-ui,sans-serif;
@@ -94,6 +94,19 @@ strong{font-weight:600;color:var(--ink-900)}
    (vw inclui a barra de rolagem e causaria overflow) */
 .pad-l{padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)))}
 
+/* SANGRIA. Num elemento de largura total, `100%` e a largura da secao (que
+   nao inclui a barra de rolagem), entao estas contas alinham o conteudo a
+   borda interna do container e deixam a imagem ir ate a borda da tela SEM
+   usar vw. Usar vw aqui causaria overflow de ~8px em Windows. */
+.bleed-r{
+  padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)));
+  padding-right:0;
+}
+.bleed-l{
+  padding-right:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)));
+  padding-left:0;
+}
+
 /* Capitulo: uma tela por secao. Conteudo centrado na area livre abaixo do
    header fixo, para nunca ficar escondido atras dele. */
 .chapter{
@@ -134,7 +147,7 @@ strong{font-weight:600;color:var(--ink-900)}
 .grid-tex{
   position:absolute;inset:0;z-index:0;pointer-events:none;
   background:url(../assets/patterns/grade-quadrada.svg) center top/1400px auto repeat;
-  opacity:.055;
+  opacity:.04;
 }
 .chapter > .container{position:relative;z-index:2}
 
@@ -325,7 +338,12 @@ strong{font-weight:600;color:var(--ink-900)}
 /* ====================================================== FRENTES DE ATUACAO
    Tablist vertical de 6 frentes + FOTO GRANDE que troca. Uma tela, imagem
    em destaque, numeral no lugar do icone de biblioteca. */
-.frentes{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(28px,4vw,60px);align-items:start;margin-top:var(--s4)}
+/* A foto vai ate a borda direita da tela: a coluna de texto continua
+   alinhada ao container, a imagem sangra. */
+.frentes{
+  display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+  gap:clamp(28px,4vw,56px);align-items:start;margin-top:var(--s4);
+}
 .frentes-list{list-style:none;margin:0;padding:0;border-top:1px solid rgba(23,33,43,.16)}
 .frentes-list li{border-bottom:1px solid rgba(23,33,43,.16)}
 .fr-btn{
@@ -342,7 +360,8 @@ strong{font-weight:600;color:var(--ink-900)}
 .fr-btn[aria-selected="true"] .bar{transform:scaleX(1)}
 
 .frentes-panel{position:relative}
-.fr-fig{position:relative;overflow:hidden;background:var(--bone-100);aspect-ratio:4/3}
+.fr-fig{position:relative;overflow:hidden;background:var(--bone-100);aspect-ratio:7/5}
+.fr-cap{padding-right:var(--gut)}
 /* SEM JAVASCRIPT a primeira foto e a primeira legenda ficam visiveis. O
    `opacity:0` das demais nao pode ser o padrao cru, senao o painel inteiro
    aparece vazio quando o app.js nao roda. O flag data-tabs="on" e escrito
@@ -357,7 +376,7 @@ strong{font-weight:600;color:var(--ink-900)}
 .fr-fig[data-tabs="on"] img[data-on="true"]{opacity:1;transform:scale(1)}
 .fr-fig .corner{position:absolute;right:14px;bottom:14px;z-index:2;padding:8px;background:rgba(8,19,31,.72)}
 .fr-fig .corner i{background:var(--gold-300)}
-.fr-cap{margin-top:var(--s3);position:relative;min-height:4.9em}
+.fr-cap{margin-top:var(--s3);position:relative;min-height:4.4em}
 .fr-cap p{color:var(--ink-500);max-width:52ch;opacity:0;position:absolute;inset:0;transition:opacity .45s var(--e2)}
 .fr-cap p:first-child{opacity:1}
 .fr-cap[data-tabs="on"] p:first-child{opacity:0}
@@ -373,34 +392,60 @@ strong{font-weight:600;color:var(--ink-900)}
   .gal-scene[data-pin="on"] .gal-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
 }
 .gal-sticky{padding:calc(var(--header-h) + var(--s3)) 0 var(--s4)}
-.gal-viewport{overflow:hidden;margin-top:var(--s4)}
+/* A trilha vai de borda a borda da tela. O primeiro card continua alinhado
+   a borda interna do container (padding-left calculado), e o ultimo sangra
+   pela direita, o que tambem sinaliza que ha mais obra para percorrer. */
+.gal-viewport{
+  overflow:hidden;margin-top:var(--s4);
+  padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)));
+}
 .gal-track{display:flex;gap:var(--s3);align-items:flex-start;will-change:transform}
 .obra{
-  flex:0 0 auto;width:clamp(250px,24vw,380px);
+  flex:0 0 auto;width:clamp(250px,29vw,430px);
   display:block;text-align:left;background:transparent;border:0;padding:0;
   font:inherit;color:inherit;cursor:pointer;
   transition:transform .14s linear;
 }
 .obra figure{margin:0;position:relative;overflow:hidden;background:var(--navy-700);aspect-ratio:4/5}
+.obra{position:relative}
 .obra img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--e)}
 .obra:hover img,.obra:focus-visible img{transform:scale(1.05)}
-.obra .corner{position:absolute;right:13px;bottom:13px;z-index:2;padding:8px;background:rgba(8,19,31,.74)}
+.obra .corner{position:absolute;right:13px;top:13px;z-index:3;padding:8px;background:rgba(8,19,31,.74)}
 .obra .corner i{background:var(--gold-300);opacity:.35;transition:opacity .3s var(--e2)}
 .obra:hover .corner i{opacity:1}
 .obra:hover .corner i:nth-child(1){transition-delay:0s}
 .obra:hover .corner i:nth-child(2){transition-delay:.06s}
 .obra:hover .corner i:nth-child(3){transition-delay:.12s}
 .obra:hover .corner i:nth-child(4){transition-delay:.18s}
-.obra-body{padding-top:13px;position:relative}
-.obra-body .bar{position:absolute;left:0;top:0;height:1px;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--e)}
+/* Legenda SOBRE a foto: com a galeria em largura total dentro de uma tela
+   so, a legenda abaixo da figura era cortada pelo overflow do viewport. Aqui
+   ela vive no rodape da propria imagem, sobre um degrade denso o bastante
+   para o contraste (auditado por amostragem de pixel). */
+.obra-body{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:var(--s4) var(--s3) var(--s3);
+  background:linear-gradient(to top,
+    rgba(8,19,31,.985) 0%,rgba(8,19,31,.965) 64%,rgba(8,19,31,.6) 88%,rgba(8,19,31,0) 100%);
+}
+.obra-body .bar{position:absolute;left:var(--s3);right:var(--s3);top:auto;bottom:0;height:1px;width:auto;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--e)}
 .obra:hover .obra-body .bar{transform:scaleX(1)}
-.obra-over{display:block;font-family:var(--ff-display);font-size:.66rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-300);margin:11px 0 7px}
-.obra-body h3{color:var(--bone-50);margin-bottom:5px}
-.obra-count{font-size:.82rem;color:var(--steel-300)}
+.obra-over{display:block;font-family:var(--ff-display);font-size:.64rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-300);margin:0 0 6px}
+.obra-body h3{color:var(--bone-50);margin-bottom:4px;font-size:1.08rem}
+.obra-count{font-size:.8rem;color:var(--steel-300)}
 /* regua de progresso da cena */
 .gal-rule{margin-top:var(--s3);height:2px;background:var(--navy-600);position:relative}
+.gal-foot{padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)));padding-right:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)))}
 .gal-rule i{position:absolute;left:0;top:0;height:100%;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%}
 .gal-hint{margin-top:11px;font-family:var(--ff-display);font-size:.64rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--steel-300)}
+/* no mobile a legenda volta para baixo da figura: nao ha cena travada nem
+   restricao de uma tela, e o texto sobre a foto perde legibilidade em card
+   estreito */
+@media (max-width:900px){
+  .obra-body{position:static;padding:13px 0 0;background:none}
+  .obra-body .bar{left:0;right:0;top:0;bottom:auto}
+  .obra-over{margin:11px 0 7px}
+  .obra .corner{top:auto;bottom:13px}
+}
 
 /* cursor-bolha "ampliar" sobre a galeria (desktop, ponteiro fino) */
 .zoomcur{
@@ -458,8 +503,14 @@ strong{font-weight:600;color:var(--ink-900)}
 .contratantes .sep{color:var(--gold-500);opacity:.6}
 
 /* ============================================= ANTES E DEPOIS (diptico) */
-.diptico{margin-top:var(--s4);display:grid;grid-template-columns:1fr auto 1fr;gap:var(--s3);align-items:center}
-.diptico figure{margin:0}
+/* Diptico de BORDA A BORDA: as duas fotos da mesma fachada ocupam a largura
+   inteira da tela, separadas por um filete de ouro. A legenda entra sobre a
+   propria foto, sobre um degrade denso o suficiente para o contraste. */
+.diptico{
+  margin-top:var(--s4);
+  display:grid;grid-template-columns:1fr 2px 1fr;gap:0;align-items:stretch;
+}
+.diptico figure{margin:0;position:relative}
 .diptico .ph{overflow:hidden;background:var(--bone-100);aspect-ratio:3/2;position:relative}
 .diptico img{width:100%;height:100%;object-fit:cover}
 /* cortina que abre: a foto e revelada por clip-path, nao por fade */
@@ -467,12 +518,44 @@ html[data-motion] .diptico figure[data-curtain]{clip-path:inset(0 0 100% 0);tran
 html[data-motion] .diptico figure[data-curtain][data-in="true"]{clip-path:inset(0 0 0 0)}
 html[data-motion] .diptico figure[data-curtain]:nth-of-type(2){transition-delay:.18s}
 .diptico figcaption{
-  display:flex;align-items:center;gap:11px;margin-top:13px;
-  font-family:var(--ff-display);font-size:.7rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:var(--s4) var(--s3) var(--s2);
+  display:flex;align-items:center;gap:11px;
+  font-family:var(--ff-display);font-size:.72rem;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);
+  background:linear-gradient(to top,
+    rgba(8,19,31,.97) 0%,rgba(8,19,31,.93) 52%,rgba(8,19,31,.5) 82%,rgba(8,19,31,0) 100%);
 }
-.diptico .seam{align-self:stretch;width:1px;background:rgba(23,33,43,.18);position:relative}
-.diptico .seam .mj{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bone-100);padding:6px}
+.diptico figure:first-of-type figcaption{padding-left:max(var(--gut),calc((100% * 2 - var(--cw))/2 + var(--gut)))}
+.diptico figcaption .mj i{background:var(--gold-300)}
+.diptico .seam{background:var(--gold-500);position:relative}
+.diptico .seam .mj{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bone-100);padding:6px;z-index:3}
+
+/* ======================================== FAIXA FULL-BLEED (entrega)
+   Capitulo que e so imagem, de borda a borda. Nao precisa de uma tela
+   inteira: e ponto de respiro entre duas secoes de conteudo. */
+.faixa{
+  position:relative;overflow:hidden;background:var(--navy-900);
+  height:clamp(280px,52vh,560px);
+}
+.faixa .media{position:absolute;inset:-8% 0}
+.faixa img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+.faixa .luz{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:url(../assets/patterns/luz-persiana.svg) 100% 0/56% auto no-repeat;
+  opacity:.34;mix-blend-mode:multiply;
+}
+.faixa .cap{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:var(--s5) 0 var(--s3);
+  background:linear-gradient(to top,
+    rgba(8,19,31,.96) 0%,rgba(8,19,31,.9) 46%,rgba(8,19,31,.42) 78%,rgba(8,19,31,0) 100%);
+}
+.faixa .cap .txt{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--ff-display);font-size:.72rem;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);
+}
 
 /* ============================================= METODO (faixa sobre foto) */
 .metodo-sec{position:relative;background:var(--navy-900)}
@@ -703,8 +786,14 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
   .creds li:nth-child(3),.creds li:nth-child(4){border-top:1px solid rgba(214,179,126,.22)}
   .creds li:nth-child(3){border-left:0;padding-left:0}
 
-  /* frentes: tablist em cima, foto embaixo */
+  /* frentes: tablist em cima, foto embaixo (sem sangria) */
   .frentes{grid-template-columns:1fr;gap:var(--s3)}
+  .bleed-r,.bleed-l{padding-left:var(--gut);padding-right:var(--gut)}
+  .fr-cap{padding-right:0}
+  .gal-viewport{padding-left:0}
+  .gal-foot{padding-left:0;padding-right:0}
+  .faixa{height:clamp(220px,34vh,320px)}
+  .diptico figure:first-of-type figcaption{padding-left:var(--s3)}
   .fr-cap{min-height:0}
   .fr-cap p{position:static;opacity:1;display:none}
   .fr-cap p:first-child{display:block}
@@ -729,7 +818,7 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
 
 @media (max-width:660px){
   .cidades-grid{grid-template-columns:1fr}
-  .diptico{grid-template-columns:1fr;gap:var(--s3)}
+  .diptico{grid-template-columns:1fr;gap:2px}
   .diptico .seam{display:none}
   .mvv{grid-template-columns:1fr}
   .pessoas li{grid-template-columns:1fr}

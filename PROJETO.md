@@ -57,7 +57,7 @@ Espelho de máquina: `state.json`.
 | Verificação | Resultado |
 |---|---|
 | Overflow horizontal, 320px a 1920px | **0px** em 10 larguras, nas 3 pastas |
-| Contraste WCAG AA, por **amostragem de pixel** (texto sobre foto) | **0 reprovações** em 6 seções · pior caso **5,35:1** |
+| Contraste WCAG AA, por **amostragem de pixel** (texto sobre foto) | **0 reprovações** em 10 seções · pior caso **4,85:1** |
 | Contraste WCAG AA, por cor declarada | **0 reprovações** |
 | Cada seção cabe em uma tela (1440x900) | **8 de 8** seções normais em 1,00 tela |
 | Cena travada da galeria | 2,15 telas de rolagem (limite recomendado: 3) |
@@ -72,8 +72,9 @@ Espelho de máquina: `state.json`.
 | Hierarquia de headings | um `h1`, zero saltos de nível |
 | Formulários na página | **0** (todo CTA é botão de WhatsApp) |
 | Página sem JavaScript | 100% legível, inclusive o painel de frentes |
-| Altura do documento | 9.605px (era 12.073px antes da revisão) |
-| Peso total | 5,26 MB, 46 imagens webp |
+| Altura do documento | 10.215px (era 12.073px antes da revisão) |
+| Seções com imagem em largura total | **7 de 9** · 8 fotos full-bleed |
+| Peso total | 5,39 MB, 47 imagens webp |
 
 ### Revisão de 04/09/2026
 
@@ -90,6 +91,10 @@ Cinco pedidos do cliente, atendidos e medidos. Detalhe completo em `brief-pack.m
    escolhidos por reforçarem a forma assinatura do site.
 5. **Uma tela por seção.** `min-height:100vh` com conteúdo centrado; a galeria de obras
    virou cena travada com pin e scrub.
+6. **Mais imagem em largura total.** De 3 para **7 seções** com imagem de borda a borda:
+   frentes sangra à direita, a galeria de obras vai de borda a borda (card de 374 para
+   418px), o díptico antes e depois ocupa meia tela cada foto, e entrou um capítulo novo
+   que é só imagem. Detalhe em `brief-pack.md` §10.
 
 ## Decisões que o cliente precisa saber
 

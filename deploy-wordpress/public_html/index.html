@@ -178,7 +178,10 @@
         </p>
         <div data-reveal="soft"><h2 id="frentes-h">O que a RICCO executa</h2></div>
       </div>
+    </div>
 
+    <!-- fora do container: a foto vai até a borda direita da tela -->
+    <div class="bleed-r">
       <div class="frentes">
         <ul class="frentes-list" role="tablist" aria-label="Frentes de atuação" data-reveal>
           <li role="presentation">
@@ -256,13 +259,12 @@
             <span class="rule"></span>
           </p>
           <div data-reveal="soft"><h2 id="obras-h">Uma seleção do que já foi entregue</h2></div>
-          <p class="lede" data-reveal>Fotografia das próprias obras. Clique em qualquer uma para abrir a galeria completa.</p>
         </div>
       </div>
 
-      <div class="container">
-        <div class="gal-viewport">
-          <div class="gal-track">
+      <!-- fora do container: a trilha vai de borda a borda da tela -->
+      <div class="gal-viewport">
+        <div class="gal-track">
 
             <button class="obra" type="button" data-reveal="fig"
               data-title="Torre Sancarlo, centro de negócios"
@@ -354,10 +356,11 @@
               </div>
             </button>
 
-          </div>
         </div>
+      </div>
+      <div class="gal-foot">
         <div class="gal-rule" aria-hidden="true"><i></i></div>
-        <p class="gal-hint" aria-hidden="true">Continue rolando para percorrer as obras</p>
+        <p class="gal-hint">Fotografia das próprias obras. Clique em qualquer uma para abrir a galeria completa, ou continue rolando para percorrer.</p>
       </div>
     </div>
   </section>
@@ -469,20 +472,21 @@
         <div data-reveal="soft"><h2 id="retrofit-h">A mesma fachada, dois registros</h2></div>
         <p class="lede" data-reveal>Retrofit de fachada comercial em Fortaleza. A foto da esquerda é o imóvel como a RICCO o recebeu. A da direita é a entrega, com estrutura, vidro e revestimento refeitos.</p>
       </div>
+    </div>
 
-      <div class="diptico">
-        <figure data-curtain>
-          <div class="ph"><img src="assets/img/split/antes.webp" width="1200" height="800" alt="Fachada antes da obra: alvenaria pintada, muro de pedra portuguesa, arbusto alto e cones na calçada." loading="lazy" decoding="async"></div>
-          <figcaption><span class="mj"><i></i><i></i><i></i><i></i></span>Antes</figcaption>
-        </figure>
-        <div class="seam" aria-hidden="true">
-          <span class="mj mj-3 mj-lg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-        </div>
-        <figure data-curtain>
-          <div class="ph"><img src="assets/img/split/depois.webp" width="1200" height="800" alt="A mesma fachada depois da obra: vitrine em vidro temperado, pilares e base revestidos em mármore e nova calçada." loading="lazy" decoding="async"></div>
-          <figcaption><span class="mj"><i></i><i></i><i></i><i></i></span>Depois</figcaption>
-        </figure>
+    <!-- fora do container: as duas fotos da mesma fachada de borda a borda -->
+    <div class="diptico">
+      <figure data-curtain>
+        <div class="ph"><img src="assets/img/split/antes.webp" width="1200" height="800" alt="Fachada antes da obra: alvenaria pintada, muro de pedra portuguesa, arbusto alto e cones na calçada." loading="lazy" decoding="async"></div>
+        <figcaption><span class="mj"><i></i><i></i><i></i><i></i></span>Antes</figcaption>
+      </figure>
+      <div class="seam" aria-hidden="true">
+        <span class="mj mj-3 mj-lg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       </div>
+      <figure data-curtain>
+        <div class="ph"><img src="assets/img/split/depois.webp" width="1200" height="800" alt="A mesma fachada depois da obra: vitrine em vidro temperado, pilares e base revestidos em mármore e nova calçada." loading="lazy" decoding="async"></div>
+        <figcaption><span class="mj"><i></i><i></i><i></i><i></i></span>Depois</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -526,6 +530,24 @@
           <h3>Entrega e averbação</h3>
           <p>Entrega definitiva da obra e a documentação que comprova o que foi construído.</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ FAIXA FULL-BLEED
+       Capítulo que é só imagem, de borda a borda. Ponto de respiro entre o
+       método e a responsabilidade técnica. -->
+  <section class="faixa on-dark" data-bg="dark" aria-label="Espaço gastronômico entregue pela RICCO em Fortaleza">
+    <div class="media" data-parallax>
+      <img src="assets/img/bands/entrega.webp" width="1448" height="620" alt="Salão de confeitaria entregue pela RICCO, com parede em tijolo aparente, arandelas em fileira e mobiliário de madeira." loading="lazy" decoding="async">
+    </div>
+    <span class="luz" aria-hidden="true"></span>
+    <div class="cap">
+      <div class="container">
+        <p class="txt" data-reveal="soft">
+          <span class="mj"><i></i><i></i><i></i><i></i></span>
+          Espaço gastronômico entregue, Fortaleza
+        </p>
       </div>
     </div>
   </section>
