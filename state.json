@@ -1,0 +1,194 @@
+{
+  "cliente": "RICCO Construtora",
+  "razao_social": "RICCO Construção e Participação Ltda.",
+  "slug": "ricco-site",
+  "setor": "construcao-civil-obras-publicas-comerciais-residenciais-e-loteamentos",
+  "praca": "Fortaleza/CE e interior do Ceará",
+  "stack": "html-estatico-css-js-vanilla",
+  "hospedagem": ["vercel", "wordpress-public-html"],
+  "etapa_atual": 8,
+  "atualizado_em": "2026-09-04",
+
+  "etapas": [
+    { "n": 1,  "nome": "Extrair do Drive",        "status": "done",
+      "nota": "44 arquivos via rclone. Pastas Criativos/ e Site e páginas/ vazias no Drive." },
+    { "n": 2,  "nome": "Organizar pastas",        "status": "done" },
+    { "n": 2.5,"nome": "Repositório GitHub",      "status": "done",
+      "nota": "Repo privado em dev-buildv. Versiona só as pastas de deploy e o estado." },
+    { "n": 3,  "nome": "Design system",           "status": "done",
+      "nota": "Paleta amostrada do brand board. Contraste medido, zero reprovação AA." },
+    { "n": 4,  "nome": "Extrair copy",            "status": "done",
+      "nota": "Sem wireframe. Copy mineirada do site anterior e reconciliada com o brand board." },
+    { "n": 5,  "nome": "Front-end",               "status": "done",
+      "nota": "13 seções, 6 obras com lightbox de galeria, motor de movimento próprio." },
+    { "n": 6,  "nome": "Ajustes finais",          "status": "done",
+      "nota": "43 webp, 4,6 MB. Overflow zero em 10 larguras de 320px a 1920px." },
+    { "n": 7,  "nome": "Módulos e tags",          "status": "done",
+      "nota": "Cookies e Política instalados. Tags/Merlin pulados por falta de IDs. Sem backend PHP: o site não tem formulário." },
+    { "n": 8,  "nome": "Revisão humana",          "status": "doing" },
+    { "n": 9,  "nome": "Deploy",                  "status": "blocked",
+      "nota": "As duas pastas estão prontas. Falta domínio e acesso da hospedagem." }
+  ],
+
+  "links": {
+    "drive": "https://drive.google.com/drive/folders/1sMshi94g0ZmLSCDRBo5Qr-AlxA1ngPPK",
+    "repo": "https://github.com/dev-buildv/ricco-site",
+    "preview_local": "http://localhost:8815",
+    "preview_comando": "node Site/preview-server.js",
+    "dominio": null,
+    "dominio_presumido": "https://riccopar.com.br"
+  },
+
+  "entregaveis": {
+    "trabalho": "Site/",
+    "deploy_vercel": "deploy-vercel/",
+    "deploy_wordpress": "deploy-wordpress/public_html/",
+    "documentacao": ["PROJETO.md", "brief-pack.md", "design-system/README.md", "Copys/copy-site.md"]
+  },
+
+  "auditoria": {
+    "overflow_horizontal_px": 0,
+    "larguras_testadas": [320, 360, 375, 414, 768, 900, 1024, 1200, 1440, 1920],
+    "contraste_aa_reprovado": 0,
+    "combinacoes_de_cor_medidas": 53,
+    "erros_js": 0,
+    "requisicoes_falhas": 0,
+    "travessao_na_copy": 0,
+    "before_em_eyebrow": 0,
+    "img_sem_alt": 0,
+    "ancoras_mortas": 0,
+    "testes_funcionais": "14/14",
+    "formularios_na_pagina": 0,
+    "peso_imagens_mb": 4.6,
+    "reduced_motion_ok": true,
+    "sem_javascript_ok": true
+  },
+
+  "pendencias": [
+    {
+      "id": "dominio",
+      "titulo": "Definir e informar o domínio final",
+      "quem": "cliente",
+      "bloqueia": "deploy",
+      "detalhe": "O site usa https://riccopar.com.br em canonical, og:url, sitemap.xml e robots.txt das duas pastas de deploy. Se o domínio for outro, é troca em quatro lugares por pasta."
+    },
+    {
+      "id": "acesso-hospedagem",
+      "titulo": "Acesso da hospedagem WordPress (FTP ou gerenciador de arquivos) e/ou conta Vercel",
+      "quem": "cliente",
+      "bloqueia": "deploy",
+      "detalhe": "Vercel: importar o repo com Root Directory = deploy-vercel, Framework = Other. WordPress: subir o conteúdo de deploy-wordpress/public_html/ para a public_html, inclusive o .htaccess (arquivo oculto)."
+    },
+    {
+      "id": "wordpress-substituir-ou-conviver",
+      "titulo": "Decidir se o site estático substitui o WordPress atual ou convive com ele",
+      "quem": "cliente",
+      "bloqueia": "deploy",
+      "detalhe": "Se houver WordPress na public_html, o index.php dele disputa a raiz com o index.html. Ou se remove o WordPress, ou se move para uma subpasta. Fazer backup antes, em qualquer caso."
+    },
+    {
+      "id": "wordpress-tema",
+      "titulo": "Confirmar se a RICCO quer editar o conteúdo pelo painel do WordPress",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "A entrega é HTML estático na raiz do domínio, que é o padrão BuildV. Se o cliente quiser edição pelo painel, é preciso converter em tema WordPress (style.css, functions.php, header/footer/front-page, campos editáveis). Não foi pedido, então não foi feito."
+    },
+    {
+      "id": "numeros-de-autoridade",
+      "titulo": "Confirmar obras entregues, m² construídos e clientes atendidos",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "O material se contradiz: +250 obras num mockup de apresentação e +100 projetos em outra peça. Nada disso foi publicado. Com os números confirmados, entram na régua de credenciais e numa seção de estatísticas."
+    },
+    {
+      "id": "anos-de-atuacao",
+      "titulo": "Confirmar 17 anos de atuação",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "O site anterior diz 17 anos; um mockup do brand board diz +15. O CNPJ sugere abertura por volta de 2010. Publicamos 17."
+    },
+    {
+      "id": "dados-do-responsavel-tecnico",
+      "titulo": "Autorizar a publicação do nome e do CREA do engenheiro responsável",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Eng. Norton de Macedo Barroso, CREA 39303/D, aparece no hero, na seção de responsabilidade técnica, no FAQ e no rodapé. Vem do site anterior do próprio cliente, mas vale confirmar que segue correto e autorizado."
+    },
+    {
+      "id": "ids-de-tag",
+      "titulo": "Fornecer GTM-ID, GA4, Meta Pixel e Google Ads",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Nenhuma tag foi instalada porque nenhum ID foi fornecido. O banner de cookies já emite consent_update no dataLayer, então as tags entram respeitando a LGPD desde o primeiro dia."
+    },
+    {
+      "id": "merlin",
+      "titulo": "Fornecer o ID do Merlin, se for usar",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Popup não instalado por falta de ID."
+    },
+    {
+      "id": "material-faltante",
+      "titulo": "Enviar criativos e material das pastas vazias do Drive",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "02. Criativos e 03. Site e páginas (com as subpastas Copy + Backup Site Antigo e Revisões e Criações) estão vazias no Drive. O formulário de Aprofundamento também está em branco, com respostas de exemplo de outro cliente."
+    },
+    {
+      "id": "logo-vetorial",
+      "titulo": "Enviar o logo em vetor (SVG, AI ou EPS)",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Só havia o logo em JPG sobre fundo navy. O símbolo foi redesenhado em SVG e o wordmark reconstruído em Archivo, o que dá fundo transparente e recoloração. Com o vetor original, trocamos pelo arquivo oficial."
+    },
+    {
+      "id": "depoimentos",
+      "titulo": "Enviar depoimentos reais com autoria verificável, se quiser a seção",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Os três do site anterior não têm autoria verificável e foram deixados de fora de propósito. Com nome, empresa e autorização, entram como seção nova."
+    },
+    {
+      "id": "logos-contratantes",
+      "titulo": "Autorizar o uso dos logos de Itaprev, Prefeitura de Itapipoca, Fundação Cearense de Pesquisa e Cultura e Planos Técnicos",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Hoje aparecem como wordmark tipográfico. Com autorização e arquivo, viram faixa de logos."
+    },
+    {
+      "id": "nome-das-obras",
+      "titulo": "Nomear as obras do portfólio",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "Só a Torre Sancarlo dá para nomear com segurança, porque o nome está na fachada. As outras cinco foram rotuladas por tipologia para não inventar localidade nem cliente."
+    },
+    {
+      "id": "fotos-de-obra-publica",
+      "titulo": "Enviar fotos das obras públicas",
+      "quem": "cliente",
+      "bloqueia": null,
+      "detalhe": "As obras públicas são o histórico mais forte da RICCO (Vice-Prefeitura na Praia de Iracema, ginásio da UFC, escolas em Itapipoca) e hoje aparecem só como texto no índice de cidades, sem foto."
+    }
+  ],
+
+  "eixos_de_variacao": {
+    "template_macro": "egs (institucional B2B técnico) + bricknet (portfólio de obras), só como esqueleto de fluxo",
+    "hero": "TRÍPTICO ESCALONADO: três fotos de obra na coluna direita (um retrato alto 3:4.4 mais dois recortes 4:3 empilhados), sangrando até a borda externa do container. Texto sobre navy sólido, NUNCA sobre a foto, então o h1 fica em 15,82:1 sem depender de véu. Inédito no setor: os 10 anteriores do ledger usaram UMA foto no hero (full-bleed com véu, slab, moldura, arco, faixa panorâmica, véu de horizonte ou cantoneira)",
+    "assinatura_forma": "MÓDULO DE JANELA: quadradinhos lidos das janelas dos dois volumes do símbolo. Sempre <span class=\"mj\"><i></i>…, NUNCA ::before (restrição explícita do cliente). Aparece no rótulo, no marcador de nav ativo, no bullet de lista, no canto do card de obra, na costura do díptico e no marcador de cada laje do CTA",
+    "navbar": "navy sólida desde o topo, base é a barra de progresso de leitura; marcador do link ativo é o MÓDULO DE JANELA 2x2 à esquerda do rótulo. Inédito: anteriores usaram sublinhado, quadrado, filete duplo, marcador acima, aba lateral e anel vazado",
+    "cta": "PAVIMENTOS: cada passo é uma laje, uma coluna de ouro cresce por elas em scaleY e o módulo de janela de cada laje ACENDE quadrado por quadrado em 0,28/0,48/0,68s. Inédito: todos os anteriores DESENHAM traço (filete vertical, stepper, escada, fita métrica, skyline, legenda de prancha) ou curva (anel); este acende módulos",
+    "card": "capa 5:4, zero sombra, zoom 1.045 no hover, módulo de janela vazado no canto inferior direito que acende em sequência. Proporção inédita no ledger (anteriores: 4:3, 4:5, 3:2 com corte 45°, 1:1, 16:9, 4:5 com topo em arco)",
+    "portfolio": "grade 3/2/1 de 6 obras REAIS (grade par, sem órfão) + lightbox de galeria com contador, setas, teclado e swipe; 27 fotos distribuídas",
+    "cor_uso": "navy e papel quente ALTERNADOS EM CAPÍTULOS (padrão awwwards-certosoftware), ouro só como filete, marcador e área cheia. Três tokens de ouro por função: #D6B37E tinta sobre navy, #AE8857 área cheia, #7A5A2A tinta sobre papel. O #AE8857 dá 2,96:1 como texto no papel e por isso é proibido como tinta clara. Inédito: os anteriores tiveram fundo único dominante ou monocromia rigorosa",
+    "tipografia_display": "ARCHIVO 300/400/500/600 (títulos e rótulos) + SPLINE SANS 400/500/600 (corpo). Zero serifada, zero monoespaçada, zero Inter. Os rótulos são Archivo em caixa alta com entreletra .22em, que é o tratamento do próprio lockup da marca. Combinação inédita no ledger",
+    "secao_inedita": "ANTES E DEPOIS factual (díptico da mesma fachada, o único par real que existe no material) + ÍNDICE DE CIDADES, que transforma o histórico nomeado de 14 obras em prova social por tipografia, no lugar do número de obras que o material não confirma",
+    "ds_referencia": "marca real: paleta amostrada pixel a pixel das 5 cédulas do brand board (#151C24 #4E5156 #868686 #AE8857 #9B7141) e dos fundos das peças aplicadas (#000E20, filete #D6B37E). Símbolo redesenhado em SVG; wordmark reconstruído em Archivo na lógica do lockup original (RICCO em aço, CONSTRUTORA em ouro entre dois filetes)",
+    "acervo": "100% foto real do cliente, zero banco. 33 fotos utilizáveis, 43 arquivos webp, 4,6 MB. Duas fotos tinham TEXTO DE MARKETING QUEIMADO: a do engenheiro teve a metade limpa recortada e entrou; a colagem com legenda saiu inteira. Duas em HEIC convertidas com pillow_heif e exif_transpose",
+    "achado_reaproveitavel": "IMG_2540.heic e IMG_2541.heic são um ANTES E DEPOIS GENUÍNO DA MESMA FACHADA (o mesmo edifício de faixas verdes aparece ao fundo nas duas), com o rótulo Antes/Depois queimado no centro. Recortar acima da linha do texto libera as duas fotos limpas. Regra: em material de cliente, conferir se pares de foto aparentemente redundantes não são antes/depois antes de descartar",
+    "movimento": "motor próprio escrito contra o sistema-de-movimento.md (a pasta motion/ da skill é de geração anterior e não responde aos atributos do doc). Gate html[data-motion], reveals up/soft/fig/mask + rv left/right com stagger 80ms e gatilho em 3 camadas, split de título por palavra 42ms, lerp de roda 0.10 só em ponteiro fino, parallax 0.10 em 3 faixas, contadores easeOutCubic com rede de segurança por timer, barra de leitura na base do header, loader por animação CSS PURA",
+    "restricoes_do_cliente": "1) ZERO travessão em copy publicada (verificado por varredura: 0 ocorrências de U+2014 e U+2013 no HTML). 2) ZERO ::before em eyebrow (todo filete e módulo é elemento real).",
+    "desvio_registrado": "hero sem foto de FUNDO com overlay (requisito §3 da skill). Há três fotos reais no hero, mas como figuras ao lado do texto, não atrás dele. Motivo: 10 dos 10 sites do setor no ledger usaram foto de fundo com véu, e com o texto fora da foto o h1 fica em 15,82:1 em vez de depender de scrim. Espírito do requisito (hero com foto real, nunca só gradiente) cumprido, e com mais foto que o padrão.",
+    "obs": "Nenhum número de autoridade inventado: o material se contradiz (+250 vs +100), então a régua usa só 17 anos, CREA 39303/D, 6 cidades e 4 frentes. Sem depoimentos (os 3 do site anterior não têm autoria verificável, regra 2.8 de ma-praticas manda remover em vez de simular). Sem faixa de logo de contratante (nenhum autorizado). Playfair Display, proposta pelo próprio kit de criativos do cliente, foi DESCARTADA: serifa de luxo com ouro sobre navy é o clichê de site gerado por IA, e o wordmark real da RICCO é um grotesco geométrico, não serifado."
+  }
+}

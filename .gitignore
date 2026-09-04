@@ -1,0 +1,49 @@
+# ===========================================================================
+# RICCO Construtora — o repositorio versiona SO a PASTA DE DEPLOY e o estado.
+# Material-fonte fica local + Google Drive, nunca no git (padrao BuildV 2b).
+# ===========================================================================
+
+# --- material bruto e de trabalho (local + Drive) ---
+_raw/
+imagens/
+Marca/
+Copys/
+design-system/
+Site/
+brief-pack.md
+site antigo/
+_imgpipe.py
+_sheets_dump.txt
+
+# --- segredos: nunca versionar ---
+*.env
+.env*
+db-config.php
+!db-config.example.php
+*.pem
+*.key
+credentials*.json
+
+# --- lixo de sistema e editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+__pycache__/
+*.pyc
+
+# --- dependencias e cache ---
+node_modules/
+.vercel/
+.cache/
+
+# --- binarios pesados que nao pertencem ao repo ---
+*.mp4
+*.MP4
+*.heic
+*.HEIC
+*.zip
+*.psd
+*.ai
