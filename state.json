@@ -5,31 +5,72 @@
   "setor": "construcao-civil-obras-publicas-comerciais-residenciais-e-loteamentos",
   "praca": "Fortaleza/CE e interior do Ceará",
   "stack": "html-estatico-css-js-vanilla",
-  "hospedagem": ["vercel", "wordpress-public-html"],
+  "hospedagem": [
+    "vercel",
+    "wordpress-public-html"
+  ],
   "etapa_atual": 8,
   "atualizado_em": "2026-09-04",
-
   "etapas": [
-    { "n": 1,  "nome": "Extrair do Drive",        "status": "done",
-      "nota": "44 arquivos via rclone. Pastas Criativos/ e Site e páginas/ vazias no Drive." },
-    { "n": 2,  "nome": "Organizar pastas",        "status": "done" },
-    { "n": 2.5,"nome": "Repositório GitHub",      "status": "done",
-      "nota": "Repo privado em dev-buildv. Versiona só as pastas de deploy e o estado." },
-    { "n": 3,  "nome": "Design system",           "status": "done",
-      "nota": "Paleta amostrada do brand board. Contraste medido, zero reprovação AA." },
-    { "n": 4,  "nome": "Extrair copy",            "status": "done",
-      "nota": "Sem wireframe. Copy mineirada do site anterior e reconciliada com o brand board." },
-    { "n": 5,  "nome": "Front-end",               "status": "done",
-      "nota": "13 seções, 6 obras com lightbox de galeria, motor de movimento próprio." },
-    { "n": 6,  "nome": "Ajustes finais",          "status": "done",
-      "nota": "43 webp, 4,6 MB. Overflow zero em 10 larguras de 320px a 1920px." },
-    { "n": 7,  "nome": "Módulos e tags",          "status": "done",
-      "nota": "Cookies e Política instalados. Tags/Merlin pulados por falta de IDs. Sem backend PHP: o site não tem formulário." },
-    { "n": 8,  "nome": "Revisão humana",          "status": "doing" },
-    { "n": 9,  "nome": "Deploy",                  "status": "blocked",
-      "nota": "As duas pastas estão prontas. Falta domínio e acesso da hospedagem." }
+    {
+      "n": 1,
+      "nome": "Extrair do Drive",
+      "status": "done",
+      "nota": "44 arquivos via rclone. Pastas Criativos/ e Site e páginas/ vazias no Drive."
+    },
+    {
+      "n": 2,
+      "nome": "Organizar pastas",
+      "status": "done"
+    },
+    {
+      "n": 2.5,
+      "nome": "Repositório GitHub",
+      "status": "done",
+      "nota": "Repo privado em dev-buildv. Versiona só as pastas de deploy e o estado."
+    },
+    {
+      "n": 3,
+      "nome": "Design system",
+      "status": "done",
+      "nota": "Paleta amostrada do brand board. Contraste medido, zero reprovação AA."
+    },
+    {
+      "n": 4,
+      "nome": "Extrair copy",
+      "status": "done",
+      "nota": "Sem wireframe. Copy mineirada do site anterior e reconciliada com o brand board."
+    },
+    {
+      "n": 5,
+      "nome": "Front-end",
+      "status": "done",
+      "nota": "9 secoes, cada uma em uma tela. Hero com foto full-bleed, tablist de frentes com foto que troca, obras em galeria travada (pin+scrub), CTA em janelas que acendem. Motor de movimento proprio. Revisado em 04/09 a pedido do cliente: ver brief-pack.md §9."
+    },
+    {
+      "n": 6,
+      "nome": "Ajustes finais",
+      "status": "done",
+      "nota": "46 webp, 5,26 MB. Overflow zero em 10 larguras (320px a 1920px) nas 3 raizes. Contraste auditado por amostragem de pixel: 0 reprovacoes."
+    },
+    {
+      "n": 7,
+      "nome": "Módulos e tags",
+      "status": "done",
+      "nota": "Cookies e Política instalados. Tags/Merlin pulados por falta de IDs. Sem backend PHP: o site não tem formulário."
+    },
+    {
+      "n": 8,
+      "nome": "Revisão humana",
+      "status": "doing"
+    },
+    {
+      "n": 9,
+      "nome": "Deploy",
+      "status": "blocked",
+      "nota": "As duas pastas estão prontas. Falta domínio e acesso da hospedagem."
+    }
   ],
-
   "links": {
     "drive": "https://drive.google.com/drive/folders/1sMshi94g0ZmLSCDRBo5Qr-AlxA1ngPPK",
     "repo": "https://github.com/dev-buildv/ricco-site",
@@ -38,32 +79,58 @@
     "dominio": null,
     "dominio_presumido": "https://riccopar.com.br"
   },
-
   "entregaveis": {
     "trabalho": "Site/",
     "deploy_vercel": "deploy-vercel/",
     "deploy_wordpress": "deploy-wordpress/public_html/",
-    "documentacao": ["PROJETO.md", "brief-pack.md", "design-system/README.md", "Copys/copy-site.md"]
+    "documentacao": [
+      "PROJETO.md",
+      "brief-pack.md",
+      "design-system/README.md",
+      "Copys/copy-site.md"
+    ]
   },
-
   "auditoria": {
     "overflow_horizontal_px": 0,
-    "larguras_testadas": [320, 360, 375, 414, 768, 900, 1024, 1200, 1440, 1920],
-    "contraste_aa_reprovado": 0,
-    "combinacoes_de_cor_medidas": 53,
+    "larguras_testadas": [
+      320,
+      360,
+      375,
+      414,
+      768,
+      900,
+      1024,
+      1200,
+      1440,
+      1920
+    ],
+    "raizes_testadas": [
+      "Site",
+      "deploy-vercel",
+      "deploy-wordpress/public_html"
+    ],
+    "contraste_aa_reprovado_por_pixel": 0,
+    "contraste_pior_caso": "5,35:1 (botao de ouro, decisao de projeto)",
+    "secoes_auditadas_por_pixel": 6,
+    "contraste_aa_reprovado_por_cor_declarada": 0,
+    "secoes_que_cabem_em_uma_tela": "8 de 8 normais (a galeria e cena travada)",
+    "cena_travada_telas_de_rolagem": 2.15,
+    "testes_funcionais": "19/19",
+    "testes_a11y_reduced_motion_sem_js": "15/15",
     "erros_js": 0,
     "requisicoes_falhas": 0,
     "travessao_na_copy": 0,
     "before_em_eyebrow": 0,
     "img_sem_alt": 0,
     "ancoras_mortas": 0,
-    "testes_funcionais": "14/14",
     "formularios_na_pagina": 0,
-    "peso_imagens_mb": 4.6,
+    "altura_do_documento_px": 9605,
+    "altura_antes_da_revisao_px": 12073,
+    "peso_total_mb": 5.26,
+    "imagens_webp": 46,
     "reduced_motion_ok": true,
     "sem_javascript_ok": true
   },
-
   "pendencias": [
     {
       "id": "dominio",
@@ -171,24 +238,27 @@
       "detalhe": "As obras públicas são o histórico mais forte da RICCO (Vice-Prefeitura na Praia de Iracema, ginásio da UFC, escolas em Itapipoca) e hoje aparecem só como texto no índice de cidades, sem foto."
     }
   ],
-
   "eixos_de_variacao": {
     "template_macro": "egs (institucional B2B técnico) + bricknet (portfólio de obras), só como esqueleto de fluxo",
-    "hero": "TRÍPTICO ESCALONADO: três fotos de obra na coluna direita (um retrato alto 3:4.4 mais dois recortes 4:3 empilhados), sangrando até a borda externa do container. Texto sobre navy sólido, NUNCA sobre a foto, então o h1 fica em 15,82:1 sem depender de véu. Inédito no setor: os 10 anteriores do ledger usaram UMA foto no hero (full-bleed com véu, slab, moldura, arco, faixa panorâmica, véu de horizonte ou cantoneira)",
+    "hero": "FOTO REAL FULL-BLEED (aerea do loteamento em implantacao, a unica candidata larga NATIVA de 1600x1049, escolhida por medicao entre seis). O veu NAO e scrim preto uniforme: e degrade da navy da marca, denso a esquerda sob o texto e leve a direita, mais DUAS CAMADAS DE LUZ DE JANELA dos patterns em multiply. Contraste do texto auditado por AMOSTRAGEM DE PIXEL: pior caso 5,35:1. Pedido explicito do cliente na revisao de 04/09",
     "assinatura_forma": "MÓDULO DE JANELA: quadradinhos lidos das janelas dos dois volumes do símbolo. Sempre <span class=\"mj\"><i></i>…, NUNCA ::before (restrição explícita do cliente). Aparece no rótulo, no marcador de nav ativo, no bullet de lista, no canto do card de obra, na costura do díptico e no marcador de cada laje do CTA",
     "navbar": "navy sólida desde o topo, base é a barra de progresso de leitura; marcador do link ativo é o MÓDULO DE JANELA 2x2 à esquerda do rótulo. Inédito: anteriores usaram sublinhado, quadrado, filete duplo, marcador acima, aba lateral e anel vazado",
-    "cta": "PAVIMENTOS: cada passo é uma laje, uma coluna de ouro cresce por elas em scaleY e o módulo de janela de cada laje ACENDE quadrado por quadrado em 0,28/0,48/0,68s. Inédito: todos os anteriores DESENHAM traço (filete vertical, stepper, escada, fita métrica, skyline, legenda de prancha) ou curva (anel); este acende módulos",
-    "card": "capa 5:4, zero sombra, zoom 1.045 no hover, módulo de janela vazado no canto inferior direito que acende em sequência. Proporção inédita no ledger (anteriores: 4:3, 4:5, 3:2 com corte 45°, 1:1, 16:9, 4:5 com topo em arco)",
-    "portfolio": "grade 3/2/1 de 6 obras REAIS (grade par, sem órfão) + lightbox de galeria com contador, setas, teclado e swipe; 27 fotos distribuídas",
+    "cta": "TRES JANELAS QUE ACENDEM: os tres passos SAO tres janelas de uma fachada, sobre o pattern de fachada de janelas acesas (background0vector recolorido), e cada uma acende em sequencia 0,28/0,48/0,68s com o modulo 3x3 acendendo quadrado por quadrado. INEDITO: os anteriores do setor desenham TRACO (filete vertical, stepper, escada, fita metrica, skyline, legenda de prancha) ou CURVA (anel); este ACENDE MODULOS. Substituiu um stepper vertical que o cliente apontou como desalinhado e comum: a linha saiu inteira, nao foi consertada",
+    "card": "capa 4:5 em GALERIA HORIZONTAL TRAVADA (pin+scrub) no desktop, ~340x425px, com tilt de 2,4 graus e cursor-bolha Ampliar; modulo de janela vazado no canto que acende em sequencia. Abaixo de 901px vira grade 2/1",
+    "portfolio": "6 obras REAIS em CENA TRAVADA no desktop: a trilha anda no eixo X com o progresso da rolagem vertical, entao as seis capas grandes cabem em UMA tela. Altura da cena = 100vh + (trackWidth - vpWidth), recalculada em todo resize. Lightbox de galeria com contador, setas, teclado e swipe",
     "cor_uso": "navy e papel quente ALTERNADOS EM CAPÍTULOS (padrão awwwards-certosoftware), ouro só como filete, marcador e área cheia. Três tokens de ouro por função: #D6B37E tinta sobre navy, #AE8857 área cheia, #7A5A2A tinta sobre papel. O #AE8857 dá 2,96:1 como texto no papel e por isso é proibido como tinta clara. Inédito: os anteriores tiveram fundo único dominante ou monocromia rigorosa",
     "tipografia_display": "ARCHIVO 300/400/500/600 (títulos e rótulos) + SPLINE SANS 400/500/600 (corpo). Zero serifada, zero monoespaçada, zero Inter. Os rótulos são Archivo em caixa alta com entreletra .22em, que é o tratamento do próprio lockup da marca. Combinação inédita no ledger",
-    "secao_inedita": "ANTES E DEPOIS factual (díptico da mesma fachada, o único par real que existe no material) + ÍNDICE DE CIDADES, que transforma o histórico nomeado de 14 obras em prova social por tipografia, no lugar do número de obras que o material não confirma",
+    "secao_inedita": "ANTES E DEPOIS FACTUAL (diptico da mesma fachada, com cortina que abre) + TABLIST DE FRENTES com foto grande que troca (seis fotos, uma por frente de atuacao) + INDICE DE CIDADES com faixa de foto, que transforma o historico nomeado de 14 obras em prova social no lugar do numero de obras que o material nao confirma",
     "ds_referencia": "marca real: paleta amostrada pixel a pixel das 5 cédulas do brand board (#151C24 #4E5156 #868686 #AE8857 #9B7141) e dos fundos das peças aplicadas (#000E20, filete #D6B37E). Símbolo redesenhado em SVG; wordmark reconstruído em Archivo na lógica do lockup original (RICCO em aço, CONSTRUTORA em ouro entre dois filetes)",
     "acervo": "100% foto real do cliente, zero banco. 33 fotos utilizáveis, 43 arquivos webp, 4,6 MB. Duas fotos tinham TEXTO DE MARKETING QUEIMADO: a do engenheiro teve a metade limpa recortada e entrou; a colagem com legenda saiu inteira. Duas em HEIC convertidas com pillow_heif e exif_transpose",
     "achado_reaproveitavel": "IMG_2540.heic e IMG_2541.heic são um ANTES E DEPOIS GENUÍNO DA MESMA FACHADA (o mesmo edifício de faixas verdes aparece ao fundo nas duas), com o rótulo Antes/Depois queimado no centro. Recortar acima da linha do texto libera as duas fotos limpas. Regra: em material de cliente, conferir se pares de foto aparentemente redundantes não são antes/depois antes de descartar",
-    "movimento": "motor próprio escrito contra o sistema-de-movimento.md (a pasta motion/ da skill é de geração anterior e não responde aos atributos do doc). Gate html[data-motion], reveals up/soft/fig/mask + rv left/right com stagger 80ms e gatilho em 3 camadas, split de título por palavra 42ms, lerp de roda 0.10 só em ponteiro fino, parallax 0.10 em 3 faixas, contadores easeOutCubic com rede de segurança por timer, barra de leitura na base do header, loader por animação CSS PURA",
+    "movimento": "motor proprio escrito contra o sistema-de-movimento.md. Gate html[data-motion]; reveals up/soft/fig/mask + rv left/right com stagger 80ms teto 6 e gatilho em 3 CAMADAS; split de titulo por palavra 42ms; CENA TRAVADA com pin+scrub na galeria (wrapper sticky SEM position inline, validado por getComputedStyle); TILT de 2,4 graus nos cards, so depois do reveal; CURSOR-BOLHA Ampliar com lerp 0,22; CORTINA clip-path no diptico com 0,18s de defasagem; troca de foto com crossfade e escala no tablist; JANELAS QUE ACENDEM em cascata; parallax 0,10 em tres fundos; lerp de roda 0,10 so em ponteiro fino; barra de leitura na base do header; loader por ANIMACAO CSS PURA",
     "restricoes_do_cliente": "1) ZERO travessão em copy publicada (verificado por varredura: 0 ocorrências de U+2014 e U+2013 no HTML). 2) ZERO ::before em eyebrow (todo filete e módulo é elemento real).",
-    "desvio_registrado": "hero sem foto de FUNDO com overlay (requisito §3 da skill). Há três fotos reais no hero, mas como figuras ao lado do texto, não atrás dele. Motivo: 10 dos 10 sites do setor no ledger usaram foto de fundo com véu, e com o texto fora da foto o h1 fica em 15,82:1 em vez de depender de scrim. Espírito do requisito (hero com foto real, nunca só gradiente) cumprido, e com mais foto que o padrão.",
-    "obs": "Nenhum número de autoridade inventado: o material se contradiz (+250 vs +100), então a régua usa só 17 anos, CREA 39303/D, 6 cidades e 4 frentes. Sem depoimentos (os 3 do site anterior não têm autoria verificável, regra 2.8 de ma-praticas manda remover em vez de simular). Sem faixa de logo de contratante (nenhum autorizado). Playfair Display, proposta pelo próprio kit de criativos do cliente, foi DESCARTADA: serifa de luxo com ouro sobre navy é o clichê de site gerado por IA, e o wordmark real da RICCO é um grotesco geométrico, não serifado."
+    "desvio_registrado": "A GALERIA DE OBRAS NAO E GRADE DE 3 POR LINHA NO DESKTOP. O requisito §3 do SKILL.md pede grade 3/2/1 e proibe scroll horizontal; no desktop (>=901px) as seis obras estao em CENA TRAVADA que move a trilha na horizontal conforme a rolagem vertical. Motivo: pedido explicito do cliente de 'mais imagens em destaque' e 'cada secao deve caber na janela de visualizacao'. Uma grade 3x2 de seis obras nao cabe em 900px com imagem grande; a cena travada cabe e dobra o tamanho de cada capa. E padrao sancionado pela casa (sistema-de-movimento.md §3, Galeria horizontal) e NAO HA barra de rolagem horizontal: o movimento vem da rolagem vertical e a medicao confirma overflow horizontal zero em dez larguras. Abaixo de 901px volta ao fluxo e vira grade 2/1, entao o requisito responsivo continua atendido. Instrucao explicita do cliente prevalece sobre o default quando os dois conflitam.",
+    "obs": "Nenhum número de autoridade inventado: o material se contradiz (+250 vs +100), então a régua usa só 17 anos, CREA 39303/D, 6 cidades e 4 frentes. Sem depoimentos (os 3 do site anterior não têm autoria verificável, regra 2.8 de ma-praticas manda remover em vez de simular). Sem faixa de logo de contratante (nenhum autorizado). Playfair Display, proposta pelo próprio kit de criativos do cliente, foi DESCARTADA: serifa de luxo com ouro sobre navy é o clichê de site gerado por IA, e o wordmark real da RICCO é um grotesco geométrico, não serifado.",
+    "patterns": "Cinco de 220 arquivos de PROJETOS/_patterns/, recolorados para a paleta em _patterns-prep.py: fachada-janelas (background0vector/Frame 62, fundo do CTA, filete para navy e janela para ouro, reenquadrada para 25x14 modulos exatos para repetir sem costura), luz-janela-cruz e luz-persiana (sombra de caixilho sobre a foto do hero, em multiply), luz-janela-feixes (faixa de cidades) e grade-quadrada (textura de prancha nos capitulos de papel a 5,5%). CRITERIO: so entrou pattern que reforca a forma assinatura. Grade de janelas acesas e luz atravessando caixilho sao a MESMA ideia do modulo de janela. As 180 tramas genericas de pattern-2 e raster-tile (hexagono, diagonal, burst) foram descartadas por serem textura emprestada",
+    "ritmo_de_pagina": "UMA TELA POR SECAO: .chapter com min-height:100vh e conteudo centrado na area livre abaixo do header fixo. Oito secoes normais em 1,00 tela medida; a galeria e cena travada (2,15 telas de orcamento de rolagem, visualmente uma tela). Documento caiu de 12.073px para 9.605px. Pedido explicito do cliente",
+    "armadilha_paga": " NA REVISAO: (4) o motor SEQUESTRAVA AS SETAS DO TECLADO mesmo com o foco no tablist, entao navegar as frentes arrastava a pagina junto; corrigido com `if (e.defaultPrevented) return` no handler de teclado mais exclusao de [role=tablist]. Regra geral: se um componente ja tratou a tecla, o motor de scroll nao age. (5) o painel de frentes ficava VAZIO SEM JAVASCRIPT, porque o opacity:0 das seis fotos nao estava atras do gate; agora a 1a foto e a 1a legenda sao visiveis por regra propria e so quando o JS escreve data-tabs=on o data-on passa a mandar. (6) a seta do tablist partia de `cur` em vez do indice do botao COM FOCO. (7) a legenda da faixa nova dava 3,76:1 sobre a areia clara da foto.",
+    "armadilha_de_auditoria": "DOIS furos no proprio instrumento de medicao, que quase geraram correcao errada: (1) o `clip` do page.screenshot do Puppeteer e em coordenadas de PAGINA, nao de viewport, entao com clip toda secao era medida contra os pixels do topo do documento (o hero) e apareceram 34 falhas de contraste inexistentes; sem clip o print captura o viewport, mesmo referencial de getBoundingClientRect. (2) amostrar a CAIXA DO ELEMENTO pega o proprio glifo (reporta 1,00:1 contra ele mesmo) e pega irmaos decorativos ao lado; o certo e printar com TODO O TEXTO TRANSPARENTE e amostrar as caixas dos NOS DE TEXTO via Range. Vale para qualquer auditoria de texto sobre foto"
   }
 }

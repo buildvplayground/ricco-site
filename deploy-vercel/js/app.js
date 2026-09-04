@@ -6,8 +6,8 @@
   'use strict';
 
   /* --------------------------------------------------- WhatsApp centralizado
-     Numero confirmado em duas pecas do proprio cliente:
-     a peca de portfolio e o rodape do site anterior. */
+     Numero confirmado em duas pecas do proprio cliente: a peca de portfolio
+     e o rodape do site anterior. */
   var WA = '5585988898000';
 
   function waHref(msg) {
@@ -15,17 +15,17 @@
   }
 
   var WA_TXT = {
-    header:      'Ola! Vim pelo site da RICCO Construtora e gostaria de falar com um engenheiro.',
-    hero:        'Ola! Vim pelo site da RICCO. Quero conversar sobre uma obra.',
-    frentes:     'Ola! Vim pelo site da RICCO. Quero saber mais sobre as frentes de atuacao de voces.',
-    obras:       'Ola! Vi as obras no site da RICCO e quero falar sobre um projeto parecido.',
-    retrofit:    'Ola! Vim pelo site da RICCO. Tenho interesse em retrofit de fachada.',
-    metodo:      'Ola! Vim pelo site da RICCO. Quero entender como funciona a execucao da obra.',
-    duvidas:     'Ola! Vim pelo site da RICCO e ficou uma duvida que nao estava na pagina.',
-    orcamento:   'Ola! Vim pelo site da RICCO e quero solicitar um orcamento. Tipo de obra: ',
-    trabalhe:    'Ola! Vim pelo site da RICCO e gostaria de enviar meu curriculo.',
-    fornecedor:  'Ola! Vim pelo site da RICCO. Sou fornecedor e gostaria de me cadastrar.',
-    rodape:      'Ola! Vim pelo site da RICCO Construtora.'
+    header:     'Ola! Vim pelo site da RICCO Construtora e gostaria de falar com um engenheiro.',
+    hero:       'Ola! Vim pelo site da RICCO. Quero conversar sobre uma obra.',
+    frentes:    'Ola! Vim pelo site da RICCO. Quero saber mais sobre as frentes de atuacao de voces.',
+    obras:      'Ola! Vi as obras no site da RICCO e quero falar sobre um projeto parecido.',
+    retrofit:   'Ola! Vim pelo site da RICCO. Tenho interesse em retrofit de fachada.',
+    metodo:     'Ola! Vim pelo site da RICCO. Quero entender como funciona a execucao da obra.',
+    duvidas:    'Ola! Vim pelo site da RICCO e ficou uma duvida que nao estava na pagina.',
+    orcamento:  'Ola! Vim pelo site da RICCO e quero solicitar um orcamento. Tipo de obra: ',
+    trabalhe:   'Ola! Vim pelo site da RICCO e gostaria de enviar meu curriculo.',
+    fornecedor: 'Ola! Vim pelo site da RICCO. Sou fornecedor e gostaria de me cadastrar.',
+    rodape:     'Ola! Vim pelo site da RICCO Construtora.'
   };
 
   /* Cada CTA leva o texto da secao de origem: poupa a primeira pergunta e
@@ -55,7 +55,7 @@
     if (!drawer) return;
     drawer.classList.remove('open');
     if (scrim) scrim.classList.remove('on');
-    if (burger) { burger.setAttribute('aria-expanded', 'false'); }
+    if (burger) burger.setAttribute('aria-expanded', 'false');
     if (!document.querySelector('.lb.open')) document.body.style.overflow = '';
   }
 
@@ -70,24 +70,92 @@
   window.RICCO = window.RICCO || {};
   window.RICCO.closeDrawer = closeDrawer;
 
+  /* ============================================= FRENTES DE ATUACAO (tablist)
+     Seis frentes numa lista; a foto grande e o texto trocam por clique,
+     hover ou teclado. Padrao ARIA de tablist com selecao manual. */
+  (function frentes() {
+    var list = document.querySelector('.frentes-list');
+    var fig = document.querySelector('.fr-fig');
+    var cap = document.querySelector('.fr-cap');
+    if (!list || !fig || !cap) return;
+
+    var btns = Array.prototype.slice.call(list.querySelectorAll('.fr-btn'));
+    var imgs = Array.prototype.slice.call(fig.querySelectorAll('img'));
+    var caps = Array.prototype.slice.call(cap.querySelectorAll('p'));
+    var cur = 0;
+    var hoverTimer = null;
+
+    /* Avisa o CSS que o JS assumiu. Antes disso a primeira foto e a primeira
+       legenda ficam visiveis por regra propria, para a secao nao aparecer
+       vazia sem JavaScript. */
+    fig.setAttribute('data-tabs', 'on');
+    cap.setAttribute('data-tabs', 'on');
+
+    function select(i, focus) {
+      if (i < 0 || i >= btns.length) return;
+      cur = i;
+      btns.forEach(function (b, k) {
+        b.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        b.setAttribute('tabindex', k === i ? '0' : '-1');
+      });
+      imgs.forEach(function (m, k) {
+        if (k === i) m.setAttribute('data-on', 'true');
+        else m.removeAttribute('data-on');
+      });
+      caps.forEach(function (p, k) {
+        if (k === i) p.setAttribute('data-on', 'true');
+        else p.removeAttribute('data-on');
+      });
+      if (focus) btns[i].focus({ preventScroll: true });
+    }
+
+    btns.forEach(function (b, i) {
+      b.addEventListener('click', function () { select(i); });
+      /* hover com atraso curto: passar o mouse pela lista nao dispara as 6 */
+      b.addEventListener('pointerenter', function () {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(function () { select(i); }, 90);
+      });
+      b.addEventListener('pointerleave', function () { clearTimeout(hoverTimer); });
+      b.addEventListener('keydown', function (e) {
+        /* O passo sai do indice do botao QUE ESTA COM O FOCO, nao de `cur`.
+           Se o foco chegar num botao nao selecionado (foco programatico,
+           leitor de tela), partir de `cur` faz a seta pular para o lugar
+           errado. */
+        var from = btns.indexOf(e.currentTarget);
+        if (from < 0) from = cur;
+        var n = null;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') n = (from + 1) % btns.length;
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') n = (from - 1 + btns.length) % btns.length;
+        else if (e.key === 'Home') n = 0;
+        else if (e.key === 'End') n = btns.length - 1;
+        else return;
+        e.preventDefault();
+        select(n, true);
+      });
+    });
+
+    select(0);
+  })();
+
   /* ================================================= LIGHTBOX DE GALERIA
      Um card = uma obra. Clicar abre TODAS as fotos daquela obra, com
      navegacao, teclado, swipe e contador. Setas somem se a obra tem 1 foto. */
-  var lb       = document.querySelector('.lb');
+  var lb = document.querySelector('.lb');
   if (lb) {
-    var lbImg    = lb.querySelector('.lb-stage img');
-    var lbTitle  = lb.querySelector('.lb-title');
-    var lbCount  = lb.querySelector('.lb-count');
-    var lbFoot   = lb.querySelector('.lb-foot');
-    var lbPrev   = lb.querySelector('.lb-prev');
-    var lbNext   = lb.querySelector('.lb-next');
-    var lbClose  = lb.querySelector('.lb-close');
+    var lbImg   = lb.querySelector('.lb-stage img');
+    var lbTitle = lb.querySelector('.lb-title');
+    var lbCount = lb.querySelector('.lb-count');
+    var lbFoot  = lb.querySelector('.lb-foot');
+    var lbPrev  = lb.querySelector('.lb-prev');
+    var lbNext  = lb.querySelector('.lb-next');
+    var lbClose = lb.querySelector('.lb-close');
 
     var shots = [], idx = 0, title = '', opener = null;
 
     function paint() {
-      var src = shots[idx];
-      lbImg.setAttribute('src', src);
+      lbImg.setAttribute('src', shots[idx]);
       lbImg.setAttribute('alt', title + ', foto ' + (idx + 1) + ' de ' + shots.length);
       lbCount.textContent = (idx + 1) + ' / ' + shots.length;
       var many = shots.length > 1;
@@ -143,8 +211,8 @@
       else if (e.key === 'ArrowLeft')  { e.preventDefault(); step(-1); }
       else if (e.key === 'Tab') {
         /* foco preso dentro do lightbox */
-        var f = Array.prototype.filter.call(
-          lb.querySelectorAll('button'), function (b) { return !b.hidden; });
+        var f = Array.prototype.filter.call(lb.querySelectorAll('button'),
+                                            function (b) { return !b.hidden; });
         if (!f.length) return;
         var i = f.indexOf(document.activeElement);
         e.preventDefault();

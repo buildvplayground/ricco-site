@@ -2,6 +2,7 @@
    RICCO Construtora
    Design system derivado da marca real (ver ../../design-system/README.md).
    Forma assinatura: MODULO DE JANELA, sempre elemento real, nunca ::before.
+   Cada capitulo cabe em uma tela (min-height:100vh, conteudo centrado).
    =========================================================================== */
 
 :root{
@@ -20,21 +21,16 @@
   --ink-700:#2A3138;
   --ink-500:#5B6470;
 
-  /* --- tipografia --- */
-  --ff-display:'Archivo','Archivo Fallback',system-ui,sans-serif;
-  --ff-body:'Spline Sans','Spline Sans Fallback',system-ui,sans-serif;
+  --ff-display:'Archivo',system-ui,sans-serif;
+  --ff-body:'Spline Sans',system-ui,sans-serif;
 
-  /* --- ritmo --- */
-  --s1:8px; --s2:16px; --s3:26px; --s4:44px; --s5:72px; --s6:112px;
-  --sec:clamp(64px,8.4vw,124px);
+  --s1:8px; --s2:15px; --s3:24px; --s4:38px; --s5:60px;
   --cw:1200px;
   --gut:24px;
-  --header-h:88px;
+  --header-h:84px;
 
-  /* --- medidas de leitura --- */
-  --m-h1:19ch; --m-h2:24ch; --m-texto:64ch; --m-curto:46ch;
+  --m-h1:18ch; --m-h2:22ch; --m-texto:62ch;
 
-  /* --- movimento --- */
   --e:cubic-bezier(.16,.84,.28,1);
   --e2:cubic-bezier(.4,0,.2,1);
 }
@@ -42,9 +38,8 @@
 *,*::before,*::after{box-sizing:border-box}
 
 html{
-  /* obrigatorio com o motor de movimento: o lerp cuida das ancoras (§4 do doc) */
-  scroll-behavior:auto;
-  scroll-padding-top:calc(var(--header-h) + 8px);
+  scroll-behavior:auto;                /* obrigatorio com o motor (§4 do doc) */
+  scroll-padding-top:var(--header-h);
   -webkit-text-size-adjust:100%;
 }
 
@@ -53,8 +48,8 @@ body{
   background:var(--bone-50);
   color:var(--ink-700);
   font-family:var(--ff-body);
-  font-size:1.0625rem;
-  line-height:1.72;
+  font-size:1.0425rem;
+  line-height:1.66;
   -webkit-font-smoothing:antialiased;
   overflow-wrap:break-word;
 }
@@ -63,102 +58,94 @@ img,video{max-width:100%;height:auto;display:block}
 a{color:inherit}
 button{font:inherit;color:inherit}
 
-/* foco visivel, sempre */
-:focus-visible{
-  outline:2px solid var(--gold-500);
-  outline-offset:3px;
-  border-radius:2px;
-}
+:focus-visible{outline:2px solid var(--gold-500);outline-offset:3px;border-radius:2px}
 
 /* --------------------------------------------------------------- tipografia */
 h1,h2,h3,h4{
   font-family:var(--ff-display);
   color:var(--ink-900);
   margin:0;
-  line-height:1.06;
+  line-height:1.05;
   letter-spacing:-.018em;
   font-weight:500;
   text-wrap:balance;
 }
-h1{font-size:clamp(2.5rem,6.4vw,4.9rem);max-width:var(--m-h1)}
-h2{font-size:clamp(1.9rem,3.6vw,3rem);max-width:var(--m-h2);line-height:1.08}
-h3{font-size:1.22rem;font-weight:600;line-height:1.28;letter-spacing:-.01em}
+h1{font-size:clamp(2.4rem,5.7vw,4.5rem);max-width:var(--m-h1)}
+h2{font-size:clamp(1.8rem,3.2vw,2.7rem);max-width:var(--m-h2);line-height:1.07}
+h3{font-size:1.16rem;font-weight:600;line-height:1.26;letter-spacing:-.01em}
 p{margin:0}
 
 strong{font-weight:600;color:var(--ink-900)}
 .on-dark strong{color:var(--bone-50)}
 
 .lede{
-  font-size:clamp(1.0625rem,1.25vw,1.1875rem);
+  font-size:clamp(1.0125rem,1.15vw,1.125rem);
   color:var(--ink-500);
   max-width:var(--m-texto);
-  margin-top:var(--s3);
+  margin-top:var(--s2);
 }
 .on-dark{color:var(--steel-300)}
 .on-dark h1,.on-dark h2,.on-dark h3,.on-dark h4{color:var(--bone-50)}
 .on-dark .lede{color:var(--steel-300)}
 
 /* ------------------------------------------------------------------ layout */
-.container{
-  width:100%;
-  max-width:var(--cw);
-  margin:0 auto;
-  padding:0 var(--gut);
-}
-/* padding esquerdo que alinha um elemento FULL-WIDTH a borda interna do
-   container, sem usar vw (vw inclui a barra de rolagem e causa overflow) */
+.container{width:100%;max-width:var(--cw);margin:0 auto;padding:0 var(--gut)}
+/* alinha um elemento FULL-WIDTH a borda interna do container, sem usar vw
+   (vw inclui a barra de rolagem e causaria overflow) */
 .pad-l{padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)))}
 
-.chapter{padding:var(--sec) 0}
+/* Capitulo: uma tela por secao. Conteudo centrado na area livre abaixo do
+   header fixo, para nunca ficar escondido atras dele. */
+.chapter{
+  min-height:100vh;
+  display:grid;
+  align-content:center;
+  padding:calc(var(--header-h) + var(--s3)) 0 var(--s4);
+  position:relative;
+  overflow:hidden;
+}
 .chapter.dark{background:var(--navy-800)}
 .chapter.deep{background:var(--navy-900)}
 .chapter.paper{background:var(--bone-50)}
 .chapter.paper-alt{background:var(--bone-100)}
 
-.sec-head{max-width:760px}
+.sec-head{max-width:720px}
 .sec-head .lede{margin-top:var(--s2)}
 
 /* ----------------------------------------- MODULO DE JANELA (assinatura) */
-/* Quadradinhos lidos das janelas do simbolo da marca. Elementos reais. */
 .mj{display:inline-grid;grid-template-columns:repeat(2,1fr);gap:2px;flex:0 0 auto}
 .mj i{width:4px;height:4px;background:var(--gold-500);display:block}
 .mj-3{grid-template-columns:repeat(3,1fr)}
 .mj-lg i{width:6px;height:6px}
 .on-dark .mj i{background:var(--gold-300)}
 
-/* rotulo de secao: NENHUM ::before, o filete e o modulo sao elementos reais */
+/* rotulo de secao: NENHUM ::before, filete e modulo sao elementos reais */
 .eyebrow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-family:var(--ff-display);
-  font-size:.72rem;
-  font-weight:500;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--gold-ink);
-  margin-bottom:var(--s3);
+  display:flex;align-items:center;gap:11px;
+  font-family:var(--ff-display);font-size:.7rem;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-ink);margin-bottom:var(--s3);
 }
 .on-dark .eyebrow{color:var(--gold-300)}
-.eyebrow .rule{display:block;width:38px;height:1px;background:currentColor;opacity:.5}
+.eyebrow .rule{display:block;width:34px;height:1px;background:currentColor;opacity:.5}
+
+/* ---------------------------------------------- textura de grade (pattern)
+   `_patterns/pattern/Square Grid`, recolorida. Fundo de prancha, bem fraca. */
+.grid-tex{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url(../assets/patterns/grade-quadrada.svg) center top/1400px auto repeat;
+  opacity:.055;
+}
+.chapter > .container{position:relative;z-index:2}
 
 /* ------------------------------------------------------------------ botoes */
 .btn{
-  display:inline-flex;
-  align-items:center;
-  gap:12px;
-  padding:16px 26px;
-  background:var(--gold-500);
-  color:var(--navy-800);
-  font-family:var(--ff-display);
-  font-size:.86rem;
-  font-weight:600;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  text-decoration:none;
-  border:0;
-  border-radius:2px;
-  cursor:pointer;
+  display:inline-flex;align-items:center;gap:11px;
+  padding:15px 24px;
+  background:var(--gold-500);color:var(--navy-800);
+  font-family:var(--ff-display);font-size:.84rem;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
+  border:0;border-radius:2px;cursor:pointer;
   transition:background .3s var(--e2),transform .12s var(--e2);
 }
 .btn:hover{background:#9B7141}
@@ -166,16 +153,12 @@ strong{font-weight:600;color:var(--ink-900)}
 .btn .arw{transition:transform .3s var(--e2)}
 .btn:hover .arw{transform:translateX(4px)}
 
-.btn-ghost{
-  background:transparent;
-  color:var(--gold-300);
-  border:1px solid var(--navy-600);
-}
-.btn-ghost:hover{background:var(--navy-700);border-color:var(--gold-500)}
+.btn-ghost{background:transparent;color:var(--gold-300);border:1px solid var(--navy-600)}
+.btn-ghost:hover{background:rgba(18,38,58,.6);border-color:var(--gold-500)}
 
 .link-arw{
   display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--ff-display);font-size:.8rem;font-weight:600;
+  font-family:var(--ff-display);font-size:.78rem;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
   color:var(--gold-ink);
 }
@@ -194,51 +177,48 @@ strong{font-weight:600;color:var(--ink-900)}
 
 .site-header{
   position:fixed;inset:0 0 auto 0;z-index:100;
-  background:var(--navy-800);
-  border-bottom:1px solid var(--navy-600);
-  transition:transform .45s var(--e2),padding .45s var(--e2),background .45s var(--e2);
+  background:transparent;
+  border-bottom:1px solid transparent;
+  transition:transform .45s var(--e2),background .45s var(--e2),border-color .45s var(--e2);
 }
 .site-header[data-hidden="true"]{transform:translateY(-100%)}
-.site-header[data-solid="true"]{background:rgba(8,19,31,.92);backdrop-filter:blur(14px)}
+.site-header[data-solid="true"]{
+  background:rgba(8,19,31,.93);backdrop-filter:blur(14px);
+  border-bottom-color:var(--navy-600);
+}
 .hd-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);min-height:var(--header-h);transition:min-height .45s var(--e2)}
-.site-header[data-solid="true"] .hd-inner{min-height:70px}
+.site-header[data-solid="true"] .hd-inner{min-height:68px}
 
 .brand{display:flex;align-items:center;gap:13px;text-decoration:none;flex:0 0 auto}
-.brand svg{display:block;height:40px;width:auto;flex:0 0 auto;transition:height .45s var(--e2)}
-.site-header[data-solid="true"] .brand svg{height:33px}
+.brand svg{display:block;height:38px;width:auto;flex:0 0 auto;transition:height .45s var(--e2)}
+.site-header[data-solid="true"] .brand svg{height:32px}
 
-/* Lockup reconstruido em Archivo, na lógica do wordmark real: RICCO em aço
-   claro e CONSTRUTORA em ouro, caixa alta de entreletra aberta entre dois
-   filetes. Os filetes são <i> reais, nunca ::before. */
+/* Lockup em Archivo, na logica do wordmark real: RICCO em aco e CONSTRUTORA
+   em ouro, caixa alta de entreletra aberta entre dois filetes <i> reais. */
 .brand-word{display:block;line-height:1}
 .brand-word b{
-  display:block;
-  font-family:var(--ff-display);font-weight:600;
-  font-size:1.34rem;letter-spacing:.055em;
-  color:var(--bone-50);line-height:1;
+  display:block;font-family:var(--ff-display);font-weight:600;
+  font-size:1.3rem;letter-spacing:.055em;color:var(--bone-50);line-height:1;
   transition:font-size .45s var(--e2);
 }
 .brand-sub{
-  display:flex;align-items:center;gap:6px;
-  margin-top:4px;
+  display:flex;align-items:center;gap:6px;margin-top:4px;
   font-family:var(--ff-display);font-weight:400;
-  font-size:.5rem;letter-spacing:.34em;text-transform:uppercase;
+  font-size:.48rem;letter-spacing:.34em;text-transform:uppercase;
   color:var(--gold-300);line-height:1;white-space:nowrap;
 }
 .brand-sub i{display:block;height:1px;flex:1 1 auto;min-width:8px;background:var(--gold-500)}
-.site-header[data-solid="true"] .brand-word b{font-size:1.16rem}
-.ft-brand .brand-word b{font-size:1.6rem}
-.ft-brand .brand-sub{font-size:.58rem}
+.site-header[data-solid="true"] .brand-word b{font-size:1.14rem}
+.ft-brand .brand-word b{font-size:1.55rem}
+.ft-brand .brand-sub{font-size:.56rem}
 
 .nav{display:flex;align-items:center;gap:var(--s3)}
-.nav-list{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.nav-list{display:flex;align-items:center;gap:5px;list-style:none;margin:0;padding:0}
 .nav-list a{
-  display:flex;align-items:center;gap:9px;
-  padding:9px 12px;
-  font-family:var(--ff-display);font-size:.79rem;font-weight:500;
+  display:flex;align-items:center;gap:9px;padding:9px 11px;
+  font-family:var(--ff-display);font-size:.77rem;font-weight:500;
   letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
-  color:var(--steel-300);
-  transition:color .3s var(--e2);
+  color:var(--steel-300);transition:color .3s var(--e2);
 }
 .nav-list a:hover{color:var(--bone-50)}
 /* marcador do link ativo: MODULO DE JANELA a esquerda do rotulo */
@@ -247,9 +227,8 @@ strong{font-weight:600;color:var(--ink-900)}
 .nav-list a[aria-current="true"] .mj{opacity:1}
 
 .burger{
-  display:none;
-  width:46px;height:46px;
-  background:transparent;border:1px solid var(--navy-600);border-radius:2px;
+  display:none;width:44px;height:44px;
+  background:rgba(8,19,31,.5);border:1px solid var(--navy-600);border-radius:2px;
   cursor:pointer;padding:0;place-items:center;
 }
 .burger span{display:block;width:19px;height:1.5px;background:var(--bone-50);margin:3.5px auto;transition:transform .35s var(--e),opacity .25s}
@@ -262,371 +241,411 @@ strong{font-weight:600;color:var(--ink-900)}
 
 /* ------------------------------------------------------------------- drawer */
 .drawer{
-  position:fixed;inset:0 0 0 auto;width:min(88vw,380px);z-index:95;
+  position:fixed;inset:0 0 0 auto;width:min(88vw,370px);z-index:95;
   background:var(--navy-900);border-left:1px solid var(--navy-600);
   transform:translateX(100%);transition:transform .5s var(--e);
-  padding:calc(var(--header-h) + 24px) 28px 32px;
-  display:flex;flex-direction:column;gap:4px;
-  overflow-y:auto;
+  padding:calc(var(--header-h) + 20px) 26px 30px;
+  display:flex;flex-direction:column;gap:2px;overflow-y:auto;
 }
 .drawer.open{transform:translateX(0)}
 .drawer a{
-  display:flex;align-items:center;gap:12px;
-  padding:15px 0;border-bottom:1px solid var(--navy-700);
-  font-family:var(--ff-display);font-size:.95rem;font-weight:500;
+  display:flex;align-items:center;gap:12px;padding:14px 0;
+  border-bottom:1px solid var(--navy-700);
+  font-family:var(--ff-display);font-size:.92rem;font-weight:500;
   letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--bone-50);
 }
-/* `.drawer a` (0,1,1) vence `.btn` (0,1,0) e pintava o botao de ouro com
-   texto claro: 2,96:1, reprovado em AA. A cor volta para a do botao. */
-.drawer .btn{
-  margin-top:var(--s3);justify-content:center;
-  color:var(--navy-800);
-  font-size:.86rem;
-  border-bottom:0;
-}
+/* `.drawer a` (0,1,1) vence `.btn` (0,1,0): sem isto o botao de ouro herda
+   texto claro e cai para 2,96:1, reprovado em AA. */
+.drawer .btn{margin-top:var(--s3);justify-content:center;color:var(--navy-800);font-size:.84rem;border-bottom:0}
 .scrim{position:fixed;inset:0;z-index:94;background:rgba(4,10,17,.62);opacity:0;pointer-events:none;transition:opacity .4s var(--e2)}
 .scrim.on{opacity:1;pointer-events:auto}
 
-/* ================================================================== HERO
-   Triptico escalonado: um retrato alto + dois recortes 4:3 empilhados.
-   O texto NUNCA fica sobre a foto, por isso o contraste e o do navy solido. */
-.hero{background:var(--navy-800);padding-top:var(--header-h);overflow:hidden}
-.hero-wrap{
-  padding-left:max(var(--gut),calc((100% - var(--cw))/2 + var(--gut)));
-  padding-right:max(0px,calc((100% - var(--cw))/2));
+/* ===================================================================== HERO
+   Foto real FULL-BLEED de fundo. O veu nao e um scrim preto uniforme: e um
+   degrade da propria navy, denso do lado do texto, mais duas camadas de LUZ
+   DE JANELA (_patterns/overlay-luz-de-janelas), que e a mesma ideia da forma
+   assinatura do site. Contraste do texto auditado por AMOSTRAGEM DE PIXEL
+   do que fica atras dele. */
+.hero{
+  position:relative;
+  min-height:100vh;
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(28px,4vw,64px);
-  align-items:center;
-  min-height:min(88vh,860px);
-  padding-top:var(--s5);
-  padding-bottom:var(--s5);
+  align-content:end;
+  padding:calc(var(--header-h) + var(--s4)) 0 0;
+  background:var(--navy-900);
+  overflow:hidden;
 }
-.hero-copy{max-width:600px}
+/* Fundos com parallax precisam de folga vertical: sem ela a translacao de
+   ate 10% descobre a borda da secao. */
+.hero-bg,.metodo-bg{inset:-7% 0}
+.hero-bg{position:absolute;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+/* veu: denso a esquerda (sob o texto), leve a direita (a foto continua viva) */
+.hero-veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(101deg,
+      rgba(8,19,31,.975) 0%,
+      rgba(8,19,31,.95) 30%,
+      rgba(8,19,31,.74) 52%,
+      rgba(8,19,31,.36) 76%,
+      rgba(8,19,31,.32) 100%),
+    linear-gradient(to top, rgba(8,19,31,.92) 0%, rgba(8,19,31,0) 34%);
+}
+/* luz de janela: sombra arquitetonica sobre a foto */
+.hero-light{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:url(../assets/patterns/luz-janela-cruz.svg) 64% 38%/150% auto no-repeat;
+  opacity:.5;mix-blend-mode:multiply;
+}
+.hero-light2{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:url(../assets/patterns/luz-persiana.svg) 100% 0/68% auto no-repeat;
+  opacity:.32;mix-blend-mode:multiply;
+}
+.hero-inner{position:relative;z-index:3;padding-bottom:var(--s5)}
 .hero h1{margin-bottom:var(--s3)}
-.hero .lede{max-width:52ch}
+.hero .lede{max-width:50ch;color:#C3CDD8}
 .hero-cta{margin-top:var(--s4);display:flex;flex-wrap:wrap;gap:var(--s2)}
 
-.hero-art{display:grid;grid-template-columns:1.04fr 1fr;grid-template-rows:auto auto;gap:12px}
-.hero-art figure{margin:0;overflow:hidden;background:var(--navy-700)}
-.hero-art img{width:100%;height:100%;object-fit:cover}
-.hero-art .f1{grid-row:1/3;aspect-ratio:3/4.4}
-.hero-art .f2,.hero-art .f3{aspect-ratio:4/3}
-.hero-art .f-mob{display:none}
-
-/* regua de credenciais: filetes verticais reais, sem card */
-.creds{border-top:1px solid var(--navy-600);background:var(--navy-800)}
-.creds ul{
-  list-style:none;margin:0;padding:0;
-  display:grid;grid-template-columns:repeat(4,1fr);
-}
-.creds li{padding:var(--s3) 0;border-left:1px solid var(--navy-600);padding-left:var(--s3)}
+/* regua de credenciais: filetes verticais reais, dentro do hero */
+.creds{position:relative;z-index:3;border-top:1px solid rgba(214,179,126,.3);background:rgba(8,19,31,.66)}
+.creds ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.creds li{padding:var(--s3) 0 var(--s3) var(--s3);border-left:1px solid rgba(214,179,126,.22)}
 .creds li:first-child{border-left:0;padding-left:0}
 .creds b{
-  display:block;font-family:var(--ff-display);font-size:clamp(1.5rem,2.4vw,2.1rem);
+  display:block;font-family:var(--ff-display);font-size:clamp(1.4rem,2.1vw,1.95rem);
   font-weight:500;color:var(--bone-50);line-height:1;letter-spacing:-.02em;
 }
-/* Escopado por CLASSE: `.creds span` pegava tambem o <span data-count>
-   dentro do <b> e os numeros saiam no tamanho do rotulo. */
 .creds .lbl{
-  display:block;margin-top:10px;font-family:var(--ff-display);
-  font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--steel-300);
+  display:block;margin-top:9px;font-family:var(--ff-display);
+  font-size:.66rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--steel-300);
 }
 
 /* ====================================================== FRENTES DE ATUACAO
-   Numeral no lugar de icone de biblioteca; larguras deliberadamente desiguais
-   (design-bank: awwwards-calcom-grid-numerado-assimetrico). Sem card. */
-.frentes-grid{
-  margin-top:var(--s5);
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:0;
-  border-top:1px solid rgba(23,33,43,.16);
+   Tablist vertical de 6 frentes + FOTO GRANDE que troca. Uma tela, imagem
+   em destaque, numeral no lugar do icone de biblioteca. */
+.frentes{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(28px,4vw,60px);align-items:start;margin-top:var(--s4)}
+.frentes-list{list-style:none;margin:0;padding:0;border-top:1px solid rgba(23,33,43,.16)}
+.frentes-list li{border-bottom:1px solid rgba(23,33,43,.16)}
+.fr-btn{
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:15px;align-items:baseline;
+  width:100%;text-align:left;background:transparent;border:0;padding:14px 4px;
+  cursor:pointer;position:relative;
 }
-.frente{
-  padding:var(--s4) var(--s4) var(--s4) 0;
-  border-bottom:1px solid rgba(23,33,43,.16);
-  position:relative;
-}
-/* Ritmo assimetrico com linhas FECHADAS: 4+2, depois 2+4, depois 3+3.
-   Tres larguras diferentes e nenhuma coluna orfa no fim da linha. */
-.frente:nth-child(1),.frente:nth-child(4){grid-column:span 4}
-.frente:nth-child(2),.frente:nth-child(3){grid-column:span 2}
-.frente:nth-child(5),.frente:nth-child(6){grid-column:span 3}
-.frente-num{
-  display:block;font-family:var(--ff-display);font-size:.8rem;font-weight:600;
-  letter-spacing:.14em;color:var(--gold-ink);margin-bottom:var(--s2);
-}
-.frente h3{margin-bottom:12px}
-.frente p{color:var(--ink-500);font-size:.99rem;max-width:44ch}
-/* os dois cards largos ganham medida maior, senao sobra um vazio grande a
-   direita da coluna e a assimetria vira desequilibrio */
-.frente:nth-child(1) p,.frente:nth-child(4) p{max-width:58ch}
-.frente .grow{position:absolute;left:0;top:-1px;height:1px;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .55s var(--e)}
-.frente:hover .grow{transform:scaleX(1)}
+.fr-btn .num{font-family:var(--ff-display);font-size:.72rem;font-weight:600;letter-spacing:.14em;color:var(--gold-ink);opacity:.65;transition:opacity .3s var(--e2)}
+.fr-btn .ttl{font-family:var(--ff-display);font-size:clamp(1rem,1.35vw,1.2rem);font-weight:500;color:var(--ink-500);letter-spacing:-.01em;line-height:1.26;transition:color .35s var(--e2)}
+.fr-btn .bar{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--e)}
+.fr-btn:hover .ttl{color:var(--ink-900)}
+.fr-btn[aria-selected="true"] .ttl{color:var(--ink-900);font-weight:600}
+.fr-btn[aria-selected="true"] .num{opacity:1}
+.fr-btn[aria-selected="true"] .bar{transform:scaleX(1)}
 
-/* ================================================== FAIXA DE FOTO full-bleed */
-.band{position:relative;overflow:hidden;background:var(--navy-900)}
-.band-media{position:absolute;inset:-12% 0;}
-.band-media img{width:100%;height:100%;object-fit:cover;opacity:.9}
-.band-inner{position:relative;z-index:2;min-height:clamp(280px,42vw,520px);display:flex;align-items:flex-end}
-.band-cap{
-  padding:var(--s4) 0;
-  background:linear-gradient(to top,rgba(8,19,31,.88),rgba(8,19,31,0));
-  width:100%;
+.frentes-panel{position:relative}
+.fr-fig{position:relative;overflow:hidden;background:var(--bone-100);aspect-ratio:4/3}
+/* SEM JAVASCRIPT a primeira foto e a primeira legenda ficam visiveis. O
+   `opacity:0` das demais nao pode ser o padrao cru, senao o painel inteiro
+   aparece vazio quando o app.js nao roda. O flag data-tabs="on" e escrito
+   pelo JS e so entao o `data-on` passa a mandar. */
+.fr-fig img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.045);
+  transition:opacity .7s var(--e),transform 1.1s var(--e);
 }
-.band-cap .txt{
-  display:flex;align-items:center;gap:14px;
-  font-family:var(--ff-display);font-size:.74rem;font-weight:500;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);
-}
+.fr-fig img:first-child{opacity:1;transform:none}
+.fr-fig[data-tabs="on"] img:first-child{opacity:0;transform:scale(1.045)}
+.fr-fig[data-tabs="on"] img[data-on="true"]{opacity:1;transform:scale(1)}
+.fr-fig .corner{position:absolute;right:14px;bottom:14px;z-index:2;padding:8px;background:rgba(8,19,31,.72)}
+.fr-fig .corner i{background:var(--gold-300)}
+.fr-cap{margin-top:var(--s3);position:relative;min-height:4.9em}
+.fr-cap p{color:var(--ink-500);max-width:52ch;opacity:0;position:absolute;inset:0;transition:opacity .45s var(--e2)}
+.fr-cap p:first-child{opacity:1}
+.fr-cap[data-tabs="on"] p:first-child{opacity:0}
+.fr-cap[data-tabs="on"] p[data-on="true"]{opacity:1}
 
-/* ==================================================== INDICE DE CIDADES
-   Prova de volume 100% tipografica, sem thumbnail
-   (design-bank: awwwards-ethansuero-lista-projetos-tipografica). */
-.cidades{margin-top:var(--s5);border-top:1px solid var(--navy-600)}
-.cidade{
-  display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);
-  gap:var(--s3);
-  padding:var(--s4) 0;
-  border-bottom:1px solid var(--navy-600);
+/* ================================================================== OBRAS
+   Cena TRAVADA no scroll: a trilha horizontal anda com o progresso da
+   rolagem, entao 6 obras grandes cabem em UMA tela. Abaixo de 900px a
+   marcacao volta ao fluxo e vira grade 2/1. */
+.gal-scene{position:relative;background:var(--navy-800)}
+.gal-sticky{position:relative}              /* NUNCA position inline (§3) */
+@media (min-width:901px){
+  .gal-scene[data-pin="on"] .gal-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
 }
-.cidade h3{
-  font-size:clamp(1.5rem,2.6vw,2.15rem);font-weight:400;letter-spacing:-.02em;
-  color:var(--bone-50);
-}
-.cidade h3 .uf{
-  font-size:.42em;color:var(--gold-300);letter-spacing:.16em;margin-left:9px;
-  position:relative;top:-.62em;font-weight:500;
-}
-.cidade ul{list-style:none;margin:0;padding:0;columns:2;column-gap:var(--s4)}
-.cidade li{
-  display:flex;align-items:baseline;gap:11px;
-  padding:6px 0;color:var(--steel-300);font-size:.98rem;
-  break-inside:avoid;
-}
-.cidade li .mj{position:relative;top:-2px}
-
-/* ============================================================== PORTFOLIO
-   Grade 3/2/1, capa 5:4, zero sombra, modulo de janela no canto. */
-.obras-grid{
-  margin-top:var(--s5);
-  display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);
-}
+.gal-sticky{padding:calc(var(--header-h) + var(--s3)) 0 var(--s4)}
+.gal-viewport{overflow:hidden;margin-top:var(--s4)}
+.gal-track{display:flex;gap:var(--s3);align-items:flex-start;will-change:transform}
 .obra{
-  position:relative;display:block;width:100%;text-align:left;
-  background:transparent;border:0;padding:0;cursor:pointer;
-  font:inherit;color:inherit;
+  flex:0 0 auto;width:clamp(250px,24vw,380px);
+  display:block;text-align:left;background:transparent;border:0;padding:0;
+  font:inherit;color:inherit;cursor:pointer;
+  transition:transform .14s linear;
 }
-.obra figure{margin:0;position:relative;overflow:hidden;background:var(--bone-100);aspect-ratio:5/4}
-.obra img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--e)}
-.obra:hover img,.obra:focus-visible img{transform:scale(1.045)}
-.obra .corner{
-  position:absolute;right:14px;bottom:14px;z-index:2;
-  padding:8px;background:rgba(8,19,31,.72);
-}
+.obra figure{margin:0;position:relative;overflow:hidden;background:var(--navy-700);aspect-ratio:4/5}
+.obra img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--e)}
+.obra:hover img,.obra:focus-visible img{transform:scale(1.05)}
+.obra .corner{position:absolute;right:13px;bottom:13px;z-index:2;padding:8px;background:rgba(8,19,31,.74)}
 .obra .corner i{background:var(--gold-300);opacity:.35;transition:opacity .3s var(--e2)}
 .obra:hover .corner i{opacity:1}
 .obra:hover .corner i:nth-child(1){transition-delay:0s}
 .obra:hover .corner i:nth-child(2){transition-delay:.06s}
 .obra:hover .corner i:nth-child(3){transition-delay:.12s}
 .obra:hover .corner i:nth-child(4){transition-delay:.18s}
-.obra-body{padding-top:var(--s2);position:relative}
-.obra-body .grow{position:absolute;left:0;top:0;height:1px;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--e)}
-.obra:hover .obra-body .grow{transform:scaleX(1)}
-.obra-over{
-  display:block;font-family:var(--ff-display);font-size:.7rem;font-weight:500;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink);margin:12px 0 8px;
-}
-.obra-body h3{margin-bottom:6px}
-.obra-count{font-size:.86rem;color:var(--ink-500)}
+.obra-body{padding-top:13px;position:relative}
+.obra-body .bar{position:absolute;left:0;top:0;height:1px;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--e)}
+.obra:hover .obra-body .bar{transform:scaleX(1)}
+.obra-over{display:block;font-family:var(--ff-display);font-size:.66rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-300);margin:11px 0 7px}
+.obra-body h3{color:var(--bone-50);margin-bottom:5px}
+.obra-count{font-size:.82rem;color:var(--steel-300)}
+/* regua de progresso da cena */
+.gal-rule{margin-top:var(--s3);height:2px;background:var(--navy-600);position:relative}
+.gal-rule i{position:absolute;left:0;top:0;height:100%;width:100%;background:var(--gold-500);transform:scaleX(0);transform-origin:0 50%}
+.gal-hint{margin-top:11px;font-family:var(--ff-display);font-size:.64rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--steel-300)}
 
-/* ==================================================== ANTES E DEPOIS (diptico) */
-.diptico{margin-top:var(--s5);display:grid;grid-template-columns:1fr auto 1fr;gap:var(--s3);align-items:center}
+/* cursor-bolha "ampliar" sobre a galeria (desktop, ponteiro fino) */
+.zoomcur{
+  position:fixed;left:0;top:0;z-index:80;width:72px;height:72px;border-radius:50%;
+  display:grid;place-items:center;pointer-events:none;
+  background:rgba(174,136,87,.94);color:var(--navy-900);
+  font-family:var(--ff-display);font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  opacity:0;transform:translate(-50%,-50%) scale(.5);
+  transition:opacity .3s var(--e2),transform .35s var(--e);
+}
+.zoomcur.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ==================================== ONDE CONSTRUIU (faixa + indice)
+   A foto entra como FAIXA VISIVEL entre o cabecalho e o indice, nao como
+   fundo sob veu: assim a imagem aparece de verdade e o texto nunca depende
+   de scrim para ter contraste. */
+.cidades-sec{position:relative;background:var(--navy-900)}
+.cid-band{position:relative;overflow:hidden;height:clamp(140px,17vh,190px);margin:var(--s3) 0}
+.cid-band .media{position:absolute;inset:-9% 0}
+.cid-band img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.cid-band .cap{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:var(--s3) 0 var(--s2);
+  background:linear-gradient(to top,
+    rgba(8,19,31,.97) 0%,
+    rgba(8,19,31,.94) 58%,
+    rgba(8,19,31,.55) 86%,
+    rgba(8,19,31,0) 100%);
+}
+.cid-band .cap .txt{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--ff-display);font-size:.68rem;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);
+}
+.cid-band .luz{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:url(../assets/patterns/luz-janela-feixes.svg) 12% 0/130% auto no-repeat;
+  opacity:.5;mix-blend-mode:multiply;
+}
+.cidades-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3) var(--s4);margin-top:var(--s3)}
+.cidade{border-top:1px solid rgba(214,179,126,.26);padding-top:13px}
+.cidade h3{
+  font-size:clamp(1.1rem,1.5vw,1.36rem);font-weight:400;letter-spacing:-.015em;
+  color:var(--bone-50);display:flex;align-items:baseline;gap:9px;margin-bottom:9px;
+}
+.cidade h3 .uf{font-size:.5em;color:var(--gold-300);letter-spacing:.16em;font-weight:500}
+.cidade h3 .qt{margin-left:auto;font-family:var(--ff-display);font-size:.6em;color:var(--gold-300);letter-spacing:.02em}
+.cidade ul{list-style:none;margin:0;padding:0}
+.cidade li{display:flex;align-items:baseline;gap:10px;padding:2px 0;color:var(--steel-300);font-size:.86rem;line-height:1.48}
+.cidade li .mj{position:relative;top:-2px}
+/* contratantes: faixa fina no pe da secao, no lugar de um capitulo proprio */
+.contratantes{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid rgba(214,179,126,.26);display:flex;flex-wrap:wrap;gap:9px var(--s3);align-items:center}
+.contratantes .lbl{font-family:var(--ff-display);font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-300)}
+.contratantes span{font-family:var(--ff-display);font-size:.9rem;font-weight:500;color:var(--bone-50)}
+.contratantes .sep{color:var(--gold-500);opacity:.6}
+
+/* ============================================= ANTES E DEPOIS (diptico) */
+.diptico{margin-top:var(--s4);display:grid;grid-template-columns:1fr auto 1fr;gap:var(--s3);align-items:center}
 .diptico figure{margin:0}
-.diptico .ph{overflow:hidden;background:var(--bone-100);aspect-ratio:3/2}
+.diptico .ph{overflow:hidden;background:var(--bone-100);aspect-ratio:3/2;position:relative}
 .diptico img{width:100%;height:100%;object-fit:cover}
+/* cortina que abre: a foto e revelada por clip-path, nao por fade */
+html[data-motion] .diptico figure[data-curtain]{clip-path:inset(0 0 100% 0);transition:clip-path 1.25s var(--e)}
+html[data-motion] .diptico figure[data-curtain][data-in="true"]{clip-path:inset(0 0 0 0)}
+html[data-motion] .diptico figure[data-curtain]:nth-of-type(2){transition-delay:.18s}
 .diptico figcaption{
-  display:flex;align-items:center;gap:11px;margin-top:14px;
-  font-family:var(--ff-display);font-size:.72rem;font-weight:600;
+  display:flex;align-items:center;gap:11px;margin-top:13px;
+  font-family:var(--ff-display);font-size:.7rem;font-weight:600;
   letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);
 }
-.diptico .seam{align-self:stretch;width:1px;background:rgba(23,33,43,.16);position:relative}
-.diptico .seam .mj{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bone-50);padding:6px}
+.diptico .seam{align-self:stretch;width:1px;background:rgba(23,33,43,.18);position:relative}
+.diptico .seam .mj{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bone-100);padding:6px}
 
-/* ================================================================== METODO */
-.metodo{margin-top:var(--s5);display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--navy-600)}
-.etapa{padding:var(--s4) var(--s3) var(--s4) 0;border-left:1px solid var(--navy-600);padding-left:var(--s3);position:relative}
-.etapa:first-child{border-left:0;padding-left:0}
-.etapa .num{
-  display:block;font-family:var(--ff-display);font-size:2.4rem;font-weight:300;
-  color:var(--gold-300);line-height:1;margin-bottom:var(--s3);letter-spacing:-.03em;
+/* ============================================= METODO (faixa sobre foto) */
+.metodo-sec{position:relative;background:var(--navy-900)}
+.metodo-bg{position:absolute;z-index:0}
+.metodo-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+.metodo-veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(8,19,31,.9) 0%,rgba(8,19,31,.78) 34%,rgba(8,19,31,.96) 74%,rgba(8,19,31,.99) 100%);
 }
-.etapa h3{margin-bottom:10px}
-.etapa p{color:var(--steel-300);font-size:.97rem}
+.metodo{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:clamp(120px,22vh,260px);border-top:1px solid rgba(214,179,126,.3)}
+.etapa{padding:var(--s3) var(--s3) 0 var(--s3);border-left:1px solid rgba(214,179,126,.2);position:relative}
+.etapa:first-child{border-left:0;padding-left:0}
+.etapa .num{display:block;font-family:var(--ff-display);font-size:2rem;font-weight:300;color:var(--gold-300);line-height:1;margin-bottom:var(--s2);letter-spacing:-.03em}
+.etapa h3{color:var(--bone-50);margin-bottom:8px}
+.etapa p{color:var(--steel-300);font-size:.88rem;line-height:1.52}
 
 /* ============================================== RESPONSABILIDADE TECNICA */
-.resp{margin-top:var(--s5);display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
-.resp-fig{margin:0;overflow:hidden;background:var(--bone-100);aspect-ratio:4/5}
+.resp{margin-top:var(--s4);display:grid;grid-template-columns:minmax(0,262px) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+.resp-fig{margin:0;overflow:hidden;background:var(--bone-100);aspect-ratio:4/5;position:relative}
 .resp-fig img{width:100%;height:100%;object-fit:cover}
-.pessoas{list-style:none;margin:var(--s4) 0 0;padding:0;border-top:1px solid rgba(23,33,43,.16)}
+.resp-fig .corner{position:absolute;right:13px;bottom:13px;z-index:2;padding:8px;background:rgba(8,19,31,.72)}
+.resp-fig .corner i{background:var(--gold-300)}
+.pessoas{list-style:none;margin:var(--s3) 0 0;padding:0;border-top:1px solid rgba(23,33,43,.16)}
 .pessoas li{padding:var(--s3) 0;border-bottom:1px solid rgba(23,33,43,.16);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:var(--s2);align-items:baseline}
-.pessoas .nome{font-family:var(--ff-display);font-size:1.12rem;font-weight:600;color:var(--ink-900);letter-spacing:-.01em}
-.pessoas .papel{display:block;font-size:.93rem;color:var(--ink-500);margin-top:4px}
-.pessoas .reg{
-  font-family:var(--ff-display);font-size:.76rem;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gold-ink);white-space:nowrap;
-}
-.legal-line{margin-top:var(--s3);font-size:.9rem;color:var(--ink-500)}
-
-.mvv{list-style:none;margin:var(--s4) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
-.mvv li{padding-top:var(--s2);border-top:1px solid rgba(23,33,43,.16)}
-.mvv b{display:block;font-family:var(--ff-display);font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:10px}
-.mvv p{font-size:.96rem;color:var(--ink-500)}
-
-/* ============================================================ CONTRATANTES
-   Wordmark tipografico: nenhum dos quatro tem logo autorizado no material. */
-.contratantes{margin-top:var(--s4);display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--navy-600)}
-.contratantes div{
-  padding:var(--s4) var(--s3) var(--s4) 0;border-left:1px solid var(--navy-600);padding-left:var(--s3);
-  display:flex;align-items:center;
-  font-family:var(--ff-display);font-size:1.02rem;font-weight:500;
-  letter-spacing:.01em;color:var(--bone-50);line-height:1.24;
-}
-.contratantes div:first-child{border-left:0;padding-left:0}
+.pessoas .nome{font-family:var(--ff-display);font-size:1.06rem;font-weight:600;color:var(--ink-900);letter-spacing:-.01em}
+.pessoas .papel{display:block;font-size:.88rem;color:var(--ink-500);margin-top:3px}
+.pessoas .reg{font-family:var(--ff-display);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);white-space:nowrap}
+.legal-line{margin-top:var(--s3);font-size:.84rem;color:var(--ink-500)}
+.mvv{list-style:none;margin:var(--s3) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
+.mvv li{padding-top:12px;border-top:1px solid rgba(23,33,43,.16)}
+.mvv b{display:block;font-family:var(--ff-display);font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:7px}
+.mvv p{font-size:.88rem;color:var(--ink-500);line-height:1.52}
 
 /* ================================================================== DUVIDAS */
-.faq{margin-top:var(--s5);max-width:880px;border-top:1px solid rgba(23,33,43,.16)}
-.faq details{border-bottom:1px solid rgba(23,33,43,.16)}
+.faq{margin-top:var(--s4);max-width:860px;border-top:1px solid rgba(214,179,126,.26)}
+.faq details{border-bottom:1px solid rgba(214,179,126,.26)}
 .faq summary{
-  list-style:none;cursor:pointer;padding:var(--s3) 44px var(--s3) 0;position:relative;
-  font-family:var(--ff-display);font-size:1.08rem;font-weight:600;color:var(--ink-900);
-  letter-spacing:-.008em;line-height:1.34;
+  list-style:none;cursor:pointer;padding:14px 44px 14px 0;position:relative;
+  font-family:var(--ff-display);font-size:1rem;font-weight:600;color:var(--bone-50);
+  letter-spacing:-.008em;line-height:1.3;
 }
 .faq summary::-webkit-details-marker{display:none}
-.faq .sign{position:absolute;right:8px;top:calc(var(--s3) + 6px);width:14px;height:14px}
+.faq .num{font-family:var(--ff-display);font-size:.7rem;font-weight:600;letter-spacing:.14em;color:var(--gold-300);margin-right:11px}
+.faq .sign{position:absolute;right:6px;top:calc(50% - 7px);width:14px;height:14px}
 .faq .sign i{position:absolute;background:var(--gold-500);display:block}
 .faq .sign i:nth-child(1){left:0;top:6px;width:14px;height:1.5px}
 .faq .sign i:nth-child(2){left:6px;top:0;width:1.5px;height:14px;transition:transform .4s var(--e)}
 .faq details[open] .sign i:nth-child(2){transform:scaleY(0)}
-.faq .ans{padding:0 44px var(--s3) 0;color:var(--ink-500);max-width:62ch}
-.faq .num{font-family:var(--ff-display);font-size:.76rem;font-weight:600;letter-spacing:.14em;color:var(--gold-ink);margin-right:12px}
+.faq .ans{padding:0 44px 15px 0;color:var(--steel-300);max-width:62ch;font-size:.93rem}
 
-/* ===================================================== CTA: PAVIMENTOS
-   Cada passo e uma laje. A coluna de ouro cresce por elas e o modulo de
-   janela de cada laje acende quadrado por quadrado. */
-.cta-wrap{margin-top:var(--s5);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(32px,5vw,80px);align-items:center}
-.pav{position:relative;padding-left:52px}
-.pav .col{position:absolute;left:15px;top:12px;bottom:12px;width:2px;background:var(--gold-500);transform:scaleY(0);transform-origin:50% 0;transition:transform 1.15s var(--e)}
-.pav[data-on="true"] .col{transform:scaleY(1)}
-.laje{position:relative;padding:var(--s3) 0;border-bottom:1px solid var(--navy-600)}
-.laje:last-child{border-bottom:0}
-.laje .mod{position:absolute;left:-52px;top:calc(var(--s3) + 4px);padding:5px;background:var(--navy-800);border:1px solid var(--navy-600)}
-.laje .mod i{opacity:.18;transition:opacity .45s var(--e2)}
-.pav[data-on="true"] .laje .mod i{opacity:1}
-.laje h3{margin-bottom:8px}
-.laje p{color:var(--steel-300);font-size:.98rem;max-width:48ch}
-/* escalonamento: laje 1 acende em 0.28s, laje 2 em 0.48s, laje 3 em 0.68s */
-.pav[data-on="true"] .laje:nth-child(2) .mod i{transition-delay:.28s}
-.pav[data-on="true"] .laje:nth-child(3) .mod i{transition-delay:.48s}
-.pav[data-on="true"] .laje:nth-child(4) .mod i{transition-delay:.68s}
-.pav[data-on="true"] .laje .mod i:nth-child(2){transition-delay:calc(var(--d,0s) + .05s)}
+/* =============================================== CTA: JANELAS QUE ACENDEM
+   Redesenho. Nada de linha vertical com tres passos: os tres passos SAO
+   tres janelas de uma fachada, sobre o pattern de fachada de janelas acesas
+   (_patterns/background0vector), e cada uma ACENDE em sequencia. */
+.janelas-sec{position:relative;background:var(--navy-900);overflow:hidden}
+.fachada{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url(../assets/patterns/fachada-janelas.svg) center top/300px auto repeat;
+  opacity:.32;
+}
+.fachada-fade{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 85% at 50% 44%,rgba(8,19,31,.6) 0%,rgba(8,19,31,.93) 62%,rgba(8,19,31,.99) 100%);
+}
+.janelas{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-top:var(--s5)}
+.janela{
+  position:relative;padding:var(--s3);
+  border:1px solid var(--navy-600);
+  background:linear-gradient(160deg,rgba(18,38,58,.55),rgba(8,19,31,.35));
+  transition:border-color .8s var(--e),background .8s var(--e),transform .8s var(--e);
+}
+.janela .mod{display:inline-grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:var(--s3)}
+.janela .mod i{width:9px;height:9px;background:var(--navy-600);display:block;transition:background .5s var(--e2),box-shadow .5s var(--e2)}
+.janela .num{
+  position:absolute;right:var(--s3);top:var(--s3);
+  font-family:var(--ff-display);font-size:.7rem;font-weight:600;letter-spacing:.14em;
+  color:var(--navy-600);transition:color .8s var(--e);
+}
+.janela h3{color:var(--steel-300);margin-bottom:9px;transition:color .8s var(--e)}
+.janela p{color:#7C8794;font-size:.9rem;line-height:1.52;transition:color .8s var(--e)}
+/* acesa */
+.janelas[data-on="true"] .janela{border-color:rgba(214,179,126,.55);background:linear-gradient(160deg,rgba(46,37,24,.66),rgba(18,26,36,.5));transform:translateY(-4px)}
+.janelas[data-on="true"] .janela .mod i{background:var(--gold-300);box-shadow:0 0 10px rgba(214,179,126,.5)}
+.janelas[data-on="true"] .janela .num{color:var(--gold-300)}
+.janelas[data-on="true"] .janela h3{color:var(--bone-50)}
+.janelas[data-on="true"] .janela p{color:var(--steel-300)}
+/* acendem em sequencia: 0,28s / 0,48s / 0,68s */
+.janelas[data-on="true"] .janela:nth-child(1),
+.janelas[data-on="true"] .janela:nth-child(1) *{transition-delay:.28s}
+.janelas[data-on="true"] .janela:nth-child(2),
+.janelas[data-on="true"] .janela:nth-child(2) *{transition-delay:.48s}
+.janelas[data-on="true"] .janela:nth-child(3),
+.janelas[data-on="true"] .janela:nth-child(3) *{transition-delay:.68s}
+/* dentro de cada janela, os 9 modulos acendem um a um (--k vem do JS) */
+.janelas[data-on="true"] .janela .mod i{transition-delay:calc(var(--d,.28s) + .045s * var(--k,0))}
 
-.cta-side .btn{margin-top:var(--s4)}
-.cta-side .whats{margin-top:var(--s3);font-size:.94rem;color:var(--steel-300)}
-.cta-side .whats a{color:var(--gold-300);text-decoration:none;border-bottom:1px solid rgba(214,179,126,.4)}
+.cta-foot{margin-top:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.cta-foot .whats{font-size:.9rem;color:var(--steel-300)}
+.cta-foot .whats a{color:var(--gold-300);text-decoration:none;border-bottom:1px solid rgba(214,179,126,.4)}
 
 /* ================================================================== RODAPE */
-.site-footer{background:var(--navy-900);padding:var(--sec) 0 var(--s4);color:var(--steel-300)}
+.site-footer{background:var(--navy-900);padding:var(--s5) 0 var(--s4);color:var(--steel-300);border-top:1px solid var(--navy-700)}
 .ft-top{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:var(--s4)}
-.ft-lockup{display:flex;align-items:center;gap:14px}
-.ft-brand svg{height:46px;width:auto;display:block;flex:0 0 auto}
-.ft-sign{margin-top:var(--s3);font-family:var(--ff-display);font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-300);line-height:1.7}
-.ft-col h4{font-family:var(--ff-display);font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);margin-bottom:var(--s2)}
+.ft-lockup{display:flex;align-items:center;gap:13px}
+.ft-brand svg{height:44px;width:auto;display:block;flex:0 0 auto}
+.ft-sign{margin-top:var(--s3);font-family:var(--ff-display);font-size:.74rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-300);line-height:1.7}
+.ft-col h4{font-family:var(--ff-display);font-size:.66rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);margin-bottom:var(--s2)}
 .ft-col ul{list-style:none;margin:0;padding:0}
-.ft-col li{padding:5px 0}
-.ft-col a{color:var(--steel-300);text-decoration:none;font-size:.95rem;transition:color .3s var(--e2)}
+.ft-col li{padding:4px 0}
+.ft-col a{color:var(--steel-300);text-decoration:none;font-size:.92rem;transition:color .3s var(--e2)}
 .ft-col a:hover{color:var(--bone-50)}
-.ft-bottom{margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--navy-700);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);justify-content:space-between;font-size:.86rem}
+.ft-bottom{margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--navy-700);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);justify-content:space-between;font-size:.84rem}
 .ft-bottom p{max-width:70ch}
 
 /* ================================================================ LIGHTBOX */
 .lb{position:fixed;inset:0;z-index:120;display:none;background:rgba(4,10,17,.96)}
 .lb.open{display:grid;grid-template-rows:auto 1fr auto}
-.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding:18px 24px;color:var(--bone-50)}
-.lb-title{font-family:var(--ff-display);font-size:.8rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
-.lb-count{font-family:var(--ff-display);font-size:.8rem;font-weight:500;letter-spacing:.14em;color:var(--gold-300)}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding:16px 22px;color:var(--bone-50)}
+.lb-title{font-family:var(--ff-display);font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
+.lb-count{font-family:var(--ff-display);font-size:.78rem;font-weight:500;letter-spacing:.14em;color:var(--gold-300)}
 .lb-stage{position:relative;display:grid;place-items:center;padding:0 clamp(12px,5vw,84px);min-height:0}
 .lb-stage img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
-.lb-btn{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:52px;height:52px;display:grid;place-items:center;
-  background:rgba(18,38,58,.85);border:1px solid var(--navy-600);border-radius:2px;
-  color:var(--bone-50);cursor:pointer;
-}
+.lb-btn{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;display:grid;place-items:center;background:rgba(18,38,58,.85);border:1px solid var(--navy-600);border-radius:2px;color:var(--bone-50);cursor:pointer}
 .lb-btn:hover{background:var(--navy-700);border-color:var(--gold-500)}
 .lb-prev{left:clamp(8px,2vw,24px)}
 .lb-next{right:clamp(8px,2vw,24px)}
-.lb-close{width:46px;height:46px;display:grid;place-items:center;background:transparent;border:1px solid var(--navy-600);border-radius:2px;color:var(--bone-50);cursor:pointer;flex:0 0 auto}
+.lb-close{width:44px;height:44px;display:grid;place-items:center;background:transparent;border:1px solid var(--navy-600);border-radius:2px;color:var(--bone-50);cursor:pointer;flex:0 0 auto}
 .lb-close:hover{border-color:var(--gold-500)}
-.lb-foot{padding:14px 24px 24px;color:var(--steel-300);font-size:.86rem;text-align:center}
+.lb-foot{padding:12px 22px 22px;color:var(--steel-300);font-size:.82rem;text-align:center}
 
 /* ========================================================== COOKIE BANNER */
-.cookie{
-  position:fixed;left:0;right:0;bottom:0;z-index:110;
-  background:var(--navy-900);border-top:1px solid var(--gold-500);
-  padding:var(--s3) 0;display:none;
-}
+.cookie{position:fixed;left:0;right:0;bottom:0;z-index:110;background:var(--navy-900);border-top:1px solid var(--gold-500);padding:var(--s3) 0;display:none}
 .cookie.show{display:block}
 .cookie-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s3);align-items:center}
-.cookie p{color:var(--steel-300);font-size:.92rem;max-width:74ch}
+.cookie p{color:var(--steel-300);font-size:.9rem;max-width:74ch}
 .cookie p a{color:var(--gold-300)}
-.cookie-acts{display:flex;gap:12px;flex-wrap:wrap}
-.cookie .btn{padding:13px 20px;font-size:.78rem}
+.cookie-acts{display:flex;gap:11px;flex-wrap:wrap}
+.cookie .btn{padding:12px 18px;font-size:.76rem}
 
-/* ================================================================= LOADER
-   Animacao CSS PURA: some sozinho mesmo se o JS estiver fora do ar. */
-.loader{
-  position:fixed;inset:0;z-index:200;background:var(--navy-900);
-  display:grid;place-items:center;
-  animation:ld-out .5s var(--e) .55s forwards;
-}
+/* ================================================================= LOADER */
+.loader{position:fixed;inset:0;z-index:200;background:var(--navy-900);display:grid;place-items:center;animation:ld-out .5s var(--e) .55s forwards}
 .loader .mj i{animation:ld-blink .8s var(--e2) infinite}
 .loader .mj i:nth-child(2){animation-delay:.08s}
 .loader .mj i:nth-child(3){animation-delay:.16s}
 .loader .mj i:nth-child(4){animation-delay:.24s}
-/* pointer-events:none junto do fade para o loader nao engolir o primeiro
-   clique enquanto a opacidade ainda esta caindo */
 @keyframes ld-out{to{opacity:0;visibility:hidden;pointer-events:none}}
 @keyframes ld-blink{0%,100%{opacity:.2}50%{opacity:1}}
 
 /* ============================================================== UTILITARIOS */
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.grow-x{transform:scaleX(0);transform-origin:0 50%;transition:transform .7s var(--e)}
-[data-seen="true"] .grow-x{transform:scaleX(1)}
 
 /* ======================================================== PAGINA INTERNA */
-.page-head{background:var(--navy-800);padding:calc(var(--header-h) + var(--s5)) 0 var(--s5)}
-.prose{max-width:74ch;padding:var(--sec) 0}
+.page-head{background:var(--navy-800);padding:calc(var(--header-h) + var(--s5)) 0 var(--s5);position:relative}
+.prose{max-width:74ch;padding:var(--s5) 0}
 .prose h2{margin:var(--s4) 0 var(--s2)}
-.prose h3{margin:var(--s3) 0 10px}
+.prose h3{margin:var(--s3) 0 9px}
 .prose p,.prose li{color:var(--ink-700)}
 .prose ul{padding-left:20px;margin:var(--s2) 0}
-.prose li{padding:4px 0}
+.prose li{padding:3px 0}
 .prose a{color:var(--gold-ink)}
 
 /* ===========================================================================
    MOVIMENTO
-   Todo estado inicial invisivel vive atras do gate html[data-motion].
-   Sem o gate, ou se o motor cair, a pagina fica 100% legivel.
+   Estado inicial invisivel vive atras do gate html[data-motion]. Sem o gate,
+   ou se o motor cair, a pagina fica 100% legivel.
    =========================================================================== */
-html[data-motion] [data-reveal]{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity .86s var(--e),transform .86s var(--e),filter .86s var(--e)}
+html[data-motion] [data-reveal]{opacity:0;transform:translateY(22px);filter:blur(5px);transition:opacity .86s var(--e),transform .86s var(--e),filter .86s var(--e)}
 html[data-motion] [data-reveal="soft"]{transform:none;filter:none;transition:opacity 1s var(--e)}
 html[data-motion] [data-reveal="fig"]{transform:scale(.965);filter:blur(4px)}
-html[data-motion] [data-reveal="mask"]{opacity:1;transform:none;filter:none;clip-path:inset(0 0 101% 0 round 2px);transition:clip-path 1.5s var(--e)}
-html[data-motion] [data-reveal="mask"] img{transform:scale(1.08);transition:transform 1.5s var(--e)}
-html[data-motion] [data-rv="left"]{transform:translateX(-26px)}
-html[data-motion] [data-rv="right"]{transform:translateX(26px)}
+html[data-motion] [data-reveal="mask"]{opacity:1;transform:none;filter:none;clip-path:inset(0 0 101% 0 round 2px);transition:clip-path 1.4s var(--e)}
+html[data-motion] [data-reveal="mask"] img{transform:scale(1.08);transition:transform 1.4s var(--e)}
+html[data-motion] [data-rv="left"]{transform:translateX(-24px)}
+html[data-motion] [data-rv="right"]{transform:translateX(24px)}
 
 html[data-motion] [data-reveal][data-in="true"]{opacity:1;transform:none;filter:none}
 html[data-motion] [data-reveal="mask"][data-in="true"]{clip-path:inset(0 0 0 0 round 2px)}
@@ -638,68 +657,79 @@ html[data-motion] [data-reveal="mask"][data-in="true"] img{transform:scale(1)}
 html[data-motion] .rw i{transform:translateY(108%);transition:transform .9s var(--e)}
 html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i{transform:translateY(0)}
 
+/* filetes que crescem fora de [data-reveal] */
+.grow-x{transform:scaleX(0);transform-origin:0 50%;transition:transform .7s var(--e)}
+[data-seen="true"].grow-x,[data-seen="true"] .grow-x{transform:scaleX(1)}
+
 @media (prefers-reduced-motion:reduce){
   html[data-motion] [data-reveal],
   html[data-motion] [data-reveal="mask"],
-  html[data-motion] .rw i{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important}
+  html[data-motion] .rw i,
+  html[data-motion] .diptico figure[data-curtain]{
+    opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important
+  }
   .loader{animation:none;opacity:0;visibility:hidden}
   .loader .mj i{animation:none}
-  .pav .col{transform:scaleY(1)!important;transition:none}
-  .laje .mod i{opacity:1!important;transition:none}
   .grow-x{transform:scaleX(1)!important;transition:none}
+  .fr-fig img,.janela,.janela *{transition:none!important}
+  .zoomcur{display:none}
   *{scroll-behavior:auto!important}
 }
 
 /* ===========================================================================
-   RESPONSIVO  (mobile-first nos valores; estes sao os cortes)
-   Aceite: ZERO overflow horizontal de 320px ao desktop.
+   RESPONSIVO. Aceite: ZERO overflow horizontal de 320px ao desktop.
    =========================================================================== */
 @media (max-width:1080px){
-  .cidade{grid-template-columns:minmax(0,190px) minmax(0,1fr)}
-  .cidade ul{columns:1}
-  .metodo{grid-template-columns:repeat(2,1fr)}
+  .cidades-grid{grid-template-columns:repeat(2,1fr)}
+  .metodo{grid-template-columns:repeat(2,1fr);row-gap:var(--s3);margin-top:clamp(80px,14vh,160px)}
   .etapa:nth-child(3){border-left:0;padding-left:0}
-  .etapa{border-top:1px solid var(--navy-600)}
-  .etapa:nth-child(1),.etapa:nth-child(2){border-top:0}
-  .contratantes{grid-template-columns:repeat(2,1fr)}
-  .contratantes div:nth-child(3){border-left:0;padding-left:0}
-  .contratantes div:nth-child(3),.contratantes div:nth-child(4){border-top:1px solid var(--navy-600)}
+  .etapa:nth-child(3),.etapa:nth-child(4){border-top:1px solid rgba(214,179,126,.2);padding-top:var(--s3)}
 }
 
 @media (max-width:900px){
-  :root{--header-h:74px}
+  :root{--header-h:72px}
   .nav-list{display:none}
-  .nav .btn{display:none}
+  .nav > .btn{display:none}
   .burger{display:grid}
 
-  /* hero empilha; o triptico vira uma foto 16:9 + duas menores */
-  .hero-wrap{
-    grid-template-columns:1fr;
-    padding-left:var(--gut);padding-right:var(--gut);
-    min-height:0;padding-top:var(--s4);padding-bottom:var(--s4);gap:var(--s4);
-  }
-  .hero-copy{max-width:none}
-  .hero-art{grid-template-columns:1fr 1fr}
-  .hero-art .f1{display:none}
-  .hero-art .f-mob{display:block;grid-column:1/3;aspect-ratio:16/9}
-  .creds ul{grid-template-columns:repeat(2,1fr);gap:0}
-  .creds li{padding-left:var(--s3)}
-  .creds li:nth-child(3),.creds li:nth-child(4){border-top:1px solid var(--navy-600)}
+  .chapter{min-height:0;padding:calc(var(--header-h) + var(--s4)) 0 var(--s5)}
+
+  .hero{align-content:center;padding-top:calc(var(--header-h) + var(--s5))}
+  .hero-inner{padding-bottom:var(--s4)}
+  .hero-veil{background:linear-gradient(to top,rgba(8,19,31,.97) 0%,rgba(8,19,31,.9) 44%,rgba(8,19,31,.76) 100%)}
+  .hero-light{background-position:50% 28%;background-size:210% auto;opacity:.4}
+  .hero-light2{display:none}
+  .creds ul{grid-template-columns:repeat(2,1fr)}
+  .creds li:nth-child(3),.creds li:nth-child(4){border-top:1px solid rgba(214,179,126,.22)}
   .creds li:nth-child(3){border-left:0;padding-left:0}
 
-  .frentes-grid{grid-template-columns:repeat(2,1fr)}
-  .frente,.frente:nth-child(1),.frente:nth-child(4){grid-column:span 1}
-  .obras-grid{grid-template-columns:repeat(2,1fr)}
-  .cta-wrap{grid-template-columns:1fr;gap:var(--s4)}
-  .resp{grid-template-columns:1fr;gap:var(--s4)}
-  .resp-fig{max-width:280px}
+  /* frentes: tablist em cima, foto embaixo */
+  .frentes{grid-template-columns:1fr;gap:var(--s3)}
+  .fr-cap{min-height:0}
+  .fr-cap p{position:static;opacity:1;display:none}
+  .fr-cap p:first-child{display:block}
+  .fr-cap[data-tabs="on"] p:first-child{display:none;opacity:1}
+  .fr-cap[data-tabs="on"] p[data-on="true"]{display:block}
+
+  /* obras: a cena volta ao fluxo e vira grade 2 colunas */
+  .gal-sticky{position:relative;height:auto;overflow:visible;padding:calc(var(--header-h) + var(--s4)) 0 var(--s5)}
+  .gal-scene{height:auto}
+  .gal-viewport{overflow:visible}
+  .gal-track{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s3)}
+  .obra{width:auto}
+  .gal-rule,.gal-hint{display:none}
+  .zoomcur{display:none}
+
+  .janelas{grid-template-columns:1fr;gap:var(--s2)}
+  .resp{grid-template-columns:1fr;gap:var(--s3)}
+  .resp-fig{max-width:250px}
   .ft-top{grid-template-columns:repeat(2,1fr)}
   .cookie-inner{grid-template-columns:1fr}
 }
 
 @media (max-width:660px){
-  .cidade{grid-template-columns:1fr;gap:var(--s2)}
-  .diptico{grid-template-columns:1fr;gap:var(--s4)}
+  .cidades-grid{grid-template-columns:1fr}
+  .diptico{grid-template-columns:1fr;gap:var(--s3)}
   .diptico .seam{display:none}
   .mvv{grid-template-columns:1fr}
   .pessoas li{grid-template-columns:1fr}
@@ -708,31 +738,21 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
 
 @media (max-width:560px){
   :root{--gut:18px}
-  h1{font-size:clamp(2.05rem,9.4vw,2.7rem);max-width:none}
+  h1{font-size:clamp(2rem,9vw,2.6rem);max-width:none}
   h2{max-width:none}
-  /* numeros grandes estouram grade de 2: uma coluna */
+  /* algarismos grandes estouram grade de 2: uma coluna */
   .creds ul{grid-template-columns:1fr}
-  .creds li{border-left:0;padding-left:0;border-top:1px solid var(--navy-600);padding-top:var(--s2);padding-bottom:var(--s2)}
+  .creds li{border-left:0;padding-left:0;border-top:1px solid rgba(214,179,126,.22);padding-top:13px;padding-bottom:13px}
   .creds li:first-child{border-top:0}
-  .frentes-grid{grid-template-columns:1fr}
-  .frente{padding-right:0}
-  .obras-grid{grid-template-columns:1fr}
   .metodo{grid-template-columns:1fr}
-  .etapa{border-left:0;padding-left:0;border-top:1px solid var(--navy-600)}
+  .etapa{border-left:0;padding-left:0;border-top:1px solid rgba(214,179,126,.2);padding-top:var(--s3)}
   .etapa:first-child{border-top:0}
-  .contratantes{grid-template-columns:1fr}
-  .contratantes div{border-left:0;padding-left:0;border-top:1px solid var(--navy-600)}
-  .contratantes div:first-child{border-top:0}
-  .hero-art{grid-template-columns:1fr}
-  .hero-art .f2,.hero-art .f3{display:none}
-  .hero-art .f-mob{grid-column:1/2}
+  .gal-track{grid-template-columns:1fr}
   .ft-top{grid-template-columns:1fr}
   .ft-bottom{flex-direction:column}
   .cookie-acts{flex-direction:column}
   .cookie-acts .btn{justify-content:center}
-  .pav{padding-left:42px}
-  .laje .mod{left:-42px}
-  .pav .col{left:11px}
-  .lb-bar{padding:14px 16px}
+  .lb-bar{padding:13px 15px}
   .lb-btn{width:44px;height:44px}
+  .fr-btn{grid-template-columns:1fr;gap:3px}
 }

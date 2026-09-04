@@ -33,11 +33,14 @@ Espelho de máquina: `state.json`.
       texto extraído. Números contraditórios foram descartados, não publicados.
 - [x] **5. Front-end** · `done` → `Site/`
       `index.html`, `privacidade.html`, `css/styles.css`, `js/motion.js`, `js/app.js`.
-      13 seções, 6 obras com lightbox de galeria, 3 faixas de foto, motor de
-      movimento próprio. Auditoria adversarial rodada (ver abaixo).
+      9 seções, cada uma em uma tela. Hero com foto full-bleed, tablist de frentes
+      com foto que troca, obras em galeria travada (pin + scrub), CTA em janelas
+      que acendem. Motor de movimento próprio. **Revisado em 04/09** a pedido do
+      cliente: ver `brief-pack.md` §9.
 - [x] **6. Ajustes finais** · `done`
-      43 imagens tratadas para `.webp` (4,6 MB no total). Overflow horizontal **zero**
-      medido em 320, 360, 375, 414, 768, 900, 1024, 1200, 1440 e 1920px.
+      46 imagens tratadas para `.webp` (5,26 MB no total). Overflow horizontal **zero**
+      medido em 320, 360, 375, 414, 768, 900, 1024, 1200, 1440 e 1920px, nas 3 raízes.
+      Contraste auditado por **amostragem de pixel** onde há texto sobre foto.
 - [x] **7. Módulos e tags** · `done` (parcial, por dependência de dados)
       Banner de cookies com evento no `dataLayer` e Política de Privacidade
       instalados. **Tags e Merlin pulados:** dependem de IDs que o cliente não
@@ -53,21 +56,40 @@ Espelho de máquina: `state.json`.
 
 | Verificação | Resultado |
 |---|---|
-| Overflow horizontal, 320px a 1920px | **0px** em 10 larguras |
-| Contraste WCAG AA do texto renderizado | **0 reprovações** em 37 combinações (home) e 16 (privacidade) |
+| Overflow horizontal, 320px a 1920px | **0px** em 10 larguras, nas 3 pastas |
+| Contraste WCAG AA, por **amostragem de pixel** (texto sobre foto) | **0 reprovações** em 6 seções · pior caso **5,35:1** |
+| Contraste WCAG AA, por cor declarada | **0 reprovações** |
+| Cada seção cabe em uma tela (1440x900) | **8 de 8** seções normais em 1,00 tela |
+| Cena travada da galeria | 2,15 telas de rolagem (limite recomendado: 3) |
+| Testes funcionais | **19/19** |
+| Testes de acessibilidade, reduced-motion e sem-JS | **15/15** |
 | Erros de JavaScript no console | nenhum |
 | Requisições falhas | nenhuma |
 | Travessão na copy publicada | **0 ocorrências** |
 | `::before` em eyebrow | **nenhum** (filete e módulo são elementos reais) |
 | `<img>` sem `alt` | nenhuma |
 | Âncoras mortas | nenhuma |
-| Testes funcionais | 14/14 passando |
-| `prefers-reduced-motion` | motor desliga, nada fica invisível |
-| Página sem JavaScript | 100% legível, loader dissolve por CSS puro |
 | Hierarquia de headings | um `h1`, zero saltos de nível |
 | Formulários na página | **0** (todo CTA é botão de WhatsApp) |
+| Página sem JavaScript | 100% legível, inclusive o painel de frentes |
+| Altura do documento | 9.605px (era 12.073px antes da revisão) |
+| Peso total | 5,26 MB, 46 imagens webp |
 
----
+### Revisão de 04/09/2026
+
+Cinco pedidos do cliente, atendidos e medidos. Detalhe completo em `brief-pack.md` §9.
+
+1. **Mais imagens em destaque.** Imagens distintas em exibição subiram de 11 para 18,
+   mais as 27 da galeria. Frentes, obras, onde construiu e método deixaram de ser
+   seções de texto.
+2. **Hero com foto full width no fundo.** Aérea do loteamento, escolhida por medição
+   entre seis candidatas (a única larga nativa, sem upscale).
+3. **CTA final redesenhado.** A linha vertical desalinhada saiu inteira. No lugar,
+   três janelas de uma fachada que acendem em sequência.
+4. **Patterns.** Cinco arquivos de `PROJETOS/_patterns/`, recolorados para a paleta,
+   escolhidos por reforçarem a forma assinatura do site.
+5. **Uma tela por seção.** `min-height:100vh` com conteúdo centrado; a galeria de obras
+   virou cena travada com pin e scrub.
 
 ## Decisões que o cliente precisa saber
 
