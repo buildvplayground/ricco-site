@@ -502,34 +502,56 @@ strong{font-weight:600;color:var(--ink-900)}
 .contratantes span{font-family:var(--ff-display);font-size:.9rem;font-weight:500;color:var(--bone-50)}
 .contratantes .sep{color:var(--gold-500);opacity:.6}
 
-/* ============================================= ANTES E DEPOIS (diptico) */
-/* Diptico de BORDA A BORDA: as duas fotos da mesma fachada ocupam a largura
-   inteira da tela, separadas por um filete de ouro. A legenda entra sobre a
-   propria foto, sobre um degrade denso o suficiente para o contraste. */
-.diptico{
-  margin-top:var(--s4);
-  display:grid;grid-template-columns:1fr 2px 1fr;gap:0;align-items:stretch;
+/* ============================================= ANTES E DEPOIS (comparador) */
+/* Duas fotos do MESMO apartamento sobrepostas: a de baixo (depois) aparece
+   inteira; a de cima (antes) e recortada ate --pos. A alca arrasta o corte.
+   Sem JS, --pos fica em 50% e as duas metades ficam legiveis. */
+.ba{margin-top:var(--s4);--pos:50%}
+.ba-frame{
+  position:relative;aspect-ratio:702/236;overflow:hidden;
+  border-radius:2px;background:var(--bone-100);
+  box-shadow:0 24px 60px -34px rgba(8,19,31,.55);
+  touch-action:pan-y;-webkit-user-select:none;user-select:none;
 }
-.diptico figure{margin:0;position:relative}
-.diptico .ph{overflow:hidden;background:var(--bone-100);aspect-ratio:3/2;position:relative}
-.diptico img{width:100%;height:100%;object-fit:cover}
-/* cortina que abre: a foto e revelada por clip-path, nao por fade */
-html[data-motion] .diptico figure[data-curtain]{clip-path:inset(0 0 100% 0);transition:clip-path 1.25s var(--e)}
-html[data-motion] .diptico figure[data-curtain][data-in="true"]{clip-path:inset(0 0 0 0)}
-html[data-motion] .diptico figure[data-curtain]:nth-of-type(2){transition-delay:.18s}
-.diptico figcaption{
-  position:absolute;left:0;right:0;bottom:0;z-index:2;
-  padding:var(--s4) var(--s3) var(--s2);
-  display:flex;align-items:center;gap:11px;
-  font-family:var(--ff-display);font-size:.72rem;font-weight:600;
+.ba-frame img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;pointer-events:none;
+}
+.ba-before{
+  position:absolute;inset:0;overflow:hidden;
+  clip-path:inset(0 calc(100% - var(--pos)) 0 0);
+}
+/* alca: filete de ouro no ponto do corte + botao redondo com setas */
+.ba-handle{
+  position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin:0;padding:0;
+  transform:translateX(-1px);background:var(--gold-500);border:0;
+  cursor:ew-resize;z-index:4;touch-action:none;
+}
+.ba-grip{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:46px;height:46px;border-radius:50%;
+  background:var(--bone-50);border:2px solid var(--gold-500);
+  box-shadow:0 8px 20px -8px rgba(8,19,31,.6);
+}
+.ba-grip::before,.ba-grip::after{
+  content:"";position:absolute;top:50%;width:0;height:0;
+  border-block:5px solid transparent;
+}
+.ba-grip::before{left:12px;transform:translateY(-50%);border-right:7px solid var(--navy-700)}
+.ba-grip::after{right:12px;transform:translateY(-50%);border-left:7px solid var(--navy-700)}
+.ba-handle:focus-visible{outline:0}
+.ba-handle:focus-visible .ba-grip{outline:3px solid var(--gold-300);outline-offset:3px}
+/* legendas fixas nos cantos de baixo */
+.ba-tag{
+  position:absolute;bottom:0;z-index:3;pointer-events:none;
+  padding:var(--s4) var(--s2) var(--s1);
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--ff-display);font-size:.68rem;font-weight:600;
   letter-spacing:.2em;text-transform:uppercase;color:var(--bone-50);
-  background:linear-gradient(to top,
-    rgba(8,19,31,.97) 0%,rgba(8,19,31,.93) 52%,rgba(8,19,31,.5) 82%,rgba(8,19,31,0) 100%);
 }
-.diptico figure:first-of-type figcaption{padding-left:max(var(--gut),calc((100% * 2 - var(--cw))/2 + var(--gut)))}
-.diptico figcaption .mj i{background:var(--gold-300)}
-.diptico .seam{background:var(--gold-500);position:relative}
-.diptico .seam .mj{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bone-100);padding:6px;z-index:3}
+.ba-tag--before{left:0;background:linear-gradient(to top right,rgba(8,19,31,.92),rgba(8,19,31,0) 72%)}
+.ba-tag--after{right:0;background:linear-gradient(to top left,rgba(8,19,31,.92),rgba(8,19,31,0) 72%)}
+.ba-tag .mj i{background:var(--gold-300)}
 
 /* ======================================== FAIXA FULL-BLEED (entrega)
    Capitulo que e so imagem, de borda a borda. Nao precisa de uma tela
@@ -747,8 +769,7 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
 @media (prefers-reduced-motion:reduce){
   html[data-motion] [data-reveal],
   html[data-motion] [data-reveal="mask"],
-  html[data-motion] .rw i,
-  html[data-motion] .diptico figure[data-curtain]{
+  html[data-motion] .rw i{
     opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important
   }
   .loader{animation:none;opacity:0;visibility:hidden}
@@ -793,7 +814,6 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
   .gal-viewport{padding-left:0}
   .gal-foot{padding-left:0;padding-right:0}
   .faixa{height:clamp(220px,34vh,320px)}
-  .diptico figure:first-of-type figcaption{padding-left:var(--s3)}
   .fr-cap{min-height:0}
   .fr-cap p{position:static;opacity:1;display:none}
   .fr-cap p:first-child{display:block}
@@ -818,8 +838,9 @@ html[data-motion] [data-in="true"] .rw i,html[data-motion] .rw[data-in="true"] i
 
 @media (max-width:660px){
   .cidades-grid{grid-template-columns:1fr}
-  .diptico{grid-template-columns:1fr;gap:2px}
-  .diptico .seam{display:none}
+  /* comparador mais alto no celular: a faixa 3:1 fica fina demais */
+  .ba-frame{aspect-ratio:5/4}
+  .ba-grip{width:40px;height:40px}
   .mvv{grid-template-columns:1fr}
   .pessoas li{grid-template-columns:1fr}
   .pessoas .reg{white-space:normal}

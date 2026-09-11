@@ -231,6 +231,67 @@
     }, { passive: true });
   }
 
+  /* ============================================ ANTES E DEPOIS (comparador)
+     Alca que arrasta e revela o "antes" sobre o "depois". Ponteiro (mouse e
+     touch) e teclado (setas). Sem este script o corte fica em 50% pelo CSS,
+     entao a secao nunca depende dele para existir. */
+  (function beforeAfter() {
+    var root = document.querySelector('[data-ba]');
+    if (!root) return;
+    var frame = root.querySelector('.ba-frame');
+    var handle = root.querySelector('.ba-handle');
+    if (!frame || !handle) return;
+
+    var pos = 50;               /* porcentagem 0..100 */
+    var dragging = false;
+
+    function apply() {
+      root.style.setProperty('--pos', pos + '%');
+      handle.setAttribute('aria-valuenow', Math.round(pos));
+    }
+
+    function setFromX(x) {
+      var r = frame.getBoundingClientRect();
+      if (r.width <= 0) return;
+      pos = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
+      apply();
+    }
+
+    frame.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      if (frame.setPointerCapture) { try { frame.setPointerCapture(e.pointerId); } catch (err) {} }
+      setFromX(e.clientX);
+      e.preventDefault();
+    });
+    frame.addEventListener('pointermove', function (e) {
+      if (dragging) setFromX(e.clientX);
+    });
+    function end(e) {
+      if (!dragging) return;
+      dragging = false;
+      if (frame.releasePointerCapture && e.pointerId != null) {
+        try { frame.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+    }
+    frame.addEventListener('pointerup', end);
+    frame.addEventListener('pointercancel', end);
+
+    handle.addEventListener('keydown', function (e) {
+      var step = e.shiftKey ? 10 : 2;
+      switch (e.key) {
+        case 'ArrowLeft': case 'ArrowDown': pos = Math.max(0, pos - step); break;
+        case 'ArrowRight': case 'ArrowUp': pos = Math.min(100, pos + step); break;
+        case 'Home': pos = 0; break;
+        case 'End': pos = 100; break;
+        default: return;
+      }
+      apply();
+      e.preventDefault();   /* o motor de scroll ve defaultPrevented e nao rola */
+    });
+
+    apply();
+  })();
+
   /* ============================================================== COOKIES
      LGPD: o consentimento emite evento no dataLayer, para que qualquer tag
      instalada depois respeite a escolha do usuario. */
