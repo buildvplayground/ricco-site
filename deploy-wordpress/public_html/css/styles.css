@@ -575,13 +575,24 @@ strong{font-weight:600;color:var(--ink-900)}
 .ba-dot:focus-visible{outline:3px solid var(--gold-300);outline-offset:3px}
 .ba-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* ===================================================== LANCAMENTO (Park Ville) */
-.lanc-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);margin-top:var(--s4)}
+/* ===================================================== LANCAMENTO (Park Ville)
+   Feature do empreendimento: masterplan (render) como visual principal, um
+   cartao navy com a oferta ao lado e a foto real da obra como faixa larga
+   embaixo. Grade por areas para segurar essa composicao. */
+.lanc{
+  display:grid;grid-template-columns:1.4fr 1fr;
+  grid-template-areas:"plano card" "obra obra";
+  gap:var(--s3);margin-top:var(--s4);align-items:start;
+}
 .lanc-fig{
   margin:0;position:relative;overflow:hidden;background:var(--bone-100);border-radius:2px;
   box-shadow:0 24px 60px -34px rgba(8,19,31,.55);
 }
-.lanc-fig img{display:block;width:100%;height:100%;aspect-ratio:3/2;object-fit:cover}
+.lanc-fig img{display:block;width:100%;height:100%;object-fit:cover}
+.lanc-fig--plano{grid-area:plano}
+.lanc-fig--plano img{aspect-ratio:3/2}
+.lanc-fig--obra{grid-area:obra}
+.lanc-fig--obra img{aspect-ratio:3/1}
 .lanc-fig figcaption{
   position:absolute;left:0;right:0;bottom:0;z-index:2;
   padding:var(--s3) var(--s2) var(--s1);
@@ -589,8 +600,41 @@ strong{font-weight:600;color:var(--ink-900)}
   text-transform:uppercase;color:var(--bone-50);
   background:linear-gradient(to top,rgba(8,19,31,.86),rgba(8,19,31,0));
 }
+/* cartao da oferta: navy dentro da secao clara, filete de ouro no topo */
+.lanc-card{
+  grid-area:card;position:relative;overflow:hidden;
+  background:var(--navy-800);color:var(--bone-50);border-radius:2px;
+  padding:var(--s4) var(--s3);display:flex;flex-direction:column;
+  box-shadow:0 24px 60px -34px rgba(8,19,31,.6);
+}
+.lanc-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold-500)}
+.lanc-kicker{
+  font-family:var(--ff-display);font-size:.7rem;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold-300);
+}
+.lanc-metric{
+  font-family:var(--ff-display);font-weight:600;line-height:1;margin-top:8px;
+  font-size:clamp(2.6rem,6vw,3.6rem);color:var(--bone-50);
+  display:flex;align-items:baseline;gap:8px;
+}
+.lanc-unit{font-size:.4em;letter-spacing:.02em;color:var(--steel-300)}
+.lanc-specs{
+  list-style:none;margin:var(--s3) 0 0;padding:0;
+  border-top:1px solid rgba(214,179,126,.22);
+}
+.lanc-specs li{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 0;border-bottom:1px solid rgba(214,179,126,.14);
+  font-size:.92rem;color:var(--bone-100);
+}
+.lanc-specs .mj i{background:var(--gold-300)}
 .lanc-cta{margin-top:var(--s4)}
-@media (max-width:720px){.lanc-grid{grid-template-columns:1fr}}
+.lanc-card .btn{width:100%;justify-content:center}
+
+@media (max-width:860px){
+  .lanc{grid-template-columns:1fr;grid-template-areas:"plano" "card" "obra"}
+  .lanc-fig--obra img{aspect-ratio:2/1}
+}
 
 /* ======================================== FAIXA FULL-BLEED (entrega)
    Capitulo que e so imagem, de borda a borda. Nao precisa de uma tela
