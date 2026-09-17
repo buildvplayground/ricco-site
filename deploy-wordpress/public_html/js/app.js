@@ -25,7 +25,8 @@
     orcamento:  'Ola! Vim pelo site da RICCO e quero solicitar um orcamento. Tipo de obra: ',
     trabalhe:   'Ola! Vim pelo site da RICCO e gostaria de enviar meu curriculo.',
     fornecedor: 'Ola! Vim pelo site da RICCO. Sou fornecedor e gostaria de me cadastrar.',
-    rodape:     'Ola! Vim pelo site da RICCO Construtora.'
+    rodape:     'Ola! Vim pelo site da RICCO Construtora.',
+    lancamento: 'Ola! Vim pelo site da RICCO e quero saber mais sobre o Loteamento Park Ville, em Maracanau.'
   };
 
   /* Cada CTA leva o texto da secao de origem: poupa a primeira pergunta e
@@ -238,58 +239,81 @@
   (function beforeAfter() {
     var root = document.querySelector('[data-ba]');
     if (!root) return;
-    var frame = root.querySelector('.ba-frame');
-    var handle = root.querySelector('.ba-handle');
-    if (!frame || !handle) return;
+    var frames = Array.prototype.slice.call(root.querySelectorAll('.ba-frame'));
+    if (!frames.length) return;
 
-    var pos = 50;               /* porcentagem 0..100 */
-    var dragging = false;
-
-    function apply() {
-      root.style.setProperty('--pos', pos + '%');
-      handle.setAttribute('aria-valuenow', Math.round(pos));
-    }
-
-    function setFromX(x) {
-      var r = frame.getBoundingClientRect();
-      if (r.width <= 0) return;
-      pos = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
-      apply();
-    }
-
-    frame.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      if (frame.setPointerCapture) { try { frame.setPointerCapture(e.pointerId); } catch (err) {} }
-      setFromX(e.clientX);
-      e.preventDefault();
-    });
-    frame.addEventListener('pointermove', function (e) {
-      if (dragging) setFromX(e.clientX);
-    });
-    function end(e) {
-      if (!dragging) return;
-      dragging = false;
-      if (frame.releasePointerCapture && e.pointerId != null) {
-        try { frame.releasePointerCapture(e.pointerId); } catch (err) {}
+    /* Um comparador por frame: cada par guarda seu proprio corte em --pos. */
+    frames.forEach(function (frame) {
+      var handle = frame.querySelector('.ba-handle');
+      var pos = 50, dragging = false;
+      function apply() {
+        frame.style.setProperty('--pos', pos + '%');
+        if (handle) handle.setAttribute('aria-valuenow', Math.round(pos));
       }
-    }
-    frame.addEventListener('pointerup', end);
-    frame.addEventListener('pointercancel', end);
-
-    handle.addEventListener('keydown', function (e) {
-      var step = e.shiftKey ? 10 : 2;
-      switch (e.key) {
-        case 'ArrowLeft': case 'ArrowDown': pos = Math.max(0, pos - step); break;
-        case 'ArrowRight': case 'ArrowUp': pos = Math.min(100, pos + step); break;
-        case 'Home': pos = 0; break;
-        case 'End': pos = 100; break;
-        default: return;
+      function setFromX(x) {
+        var r = frame.getBoundingClientRect();
+        if (r.width <= 0) return;
+        pos = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
+        apply();
       }
+      frame.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        if (frame.setPointerCapture) { try { frame.setPointerCapture(e.pointerId); } catch (err) {} }
+        setFromX(e.clientX);
+        e.preventDefault();
+      });
+      frame.addEventListener('pointermove', function (e) { if (dragging) setFromX(e.clientX); });
+      function endp(e) {
+        if (!dragging) return;
+        dragging = false;
+        if (frame.releasePointerCapture && e.pointerId != null) {
+          try { frame.releasePointerCapture(e.pointerId); } catch (err) {}
+        }
+      }
+      frame.addEventListener('pointerup', endp);
+      frame.addEventListener('pointercancel', endp);
+      if (handle) handle.addEventListener('keydown', function (e) {
+        var st = e.shiftKey ? 10 : 2;
+        switch (e.key) {
+          case 'ArrowLeft': case 'ArrowDown': pos = Math.max(0, pos - st); break;
+          case 'ArrowRight': case 'ArrowUp': pos = Math.min(100, pos + st); break;
+          case 'Home': pos = 0; break;
+          case 'End': pos = 100; break;
+          default: return;
+        }
+        apply();
+        e.preventDefault();
+      });
       apply();
-      e.preventDefault();   /* o motor de scroll ve defaultPrevented e nao rola */
     });
 
-    apply();
+    /* Carrossel: mostra um par por vez, com setas, pontos e regiao viva.
+       Acessivel por teclado (botoes) e sem sequestrar as setas, que ficam
+       reservadas para a alca do comparador em foco. */
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.ba-slide'));
+    var prev = root.querySelector('.ba-arrow--prev');
+    var next = root.querySelector('.ba-arrow--next');
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.ba-dot'));
+    var live = root.querySelector('[data-ba-live]');
+    if (slides.length < 2) return;
+    var cur = 0;
+    function show(i, focusDot) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        if (k === cur) s.removeAttribute('hidden');
+        else s.setAttribute('hidden', '');
+      });
+      dots.forEach(function (d, k) { d.setAttribute('aria-current', k === cur ? 'true' : 'false'); });
+      if (live) {
+        var lbl = slides[cur].getAttribute('data-ba-label') || '';
+        live.textContent = 'Par ' + (cur + 1) + ' de ' + slides.length + (lbl ? ': ' + lbl : '');
+      }
+      if (focusDot && dots[cur]) dots[cur].focus();
+    }
+    if (prev) prev.addEventListener('click', function () { show(cur - 1); });
+    if (next) next.addEventListener('click', function () { show(cur + 1); });
+    dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); }); });
+    show(0);
   })();
 
   /* ============================================================== COOKIES
