@@ -553,6 +553,45 @@ strong{font-weight:600;color:var(--ink-900)}
 .ba-tag--after{right:0;background:linear-gradient(to top left,rgba(8,19,31,.92),rgba(8,19,31,0) 72%)}
 .ba-tag .mj i{background:var(--gold-300)}
 
+/* carrossel de antes/depois: varios pares no mesmo comparador */
+.ba-slide[hidden]{display:none}
+.ba-frame.ar-casa{aspect-ratio:638/490}
+.ba-controls{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin-top:var(--s3)}
+.ba-arrow{
+  width:44px;height:44px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--gold-500);background:transparent;color:var(--navy-700);
+  border-radius:50%;cursor:pointer;font-size:1.5rem;line-height:1;padding:0;
+  transition:background .3s var(--e),color .3s var(--e);
+}
+.ba-arrow:hover{background:var(--gold-500);color:var(--navy-900)}
+.ba-arrow:focus-visible{outline:3px solid var(--gold-300);outline-offset:3px}
+.ba-dots{display:flex;align-items:center;gap:10px}
+.ba-dot{
+  width:11px;height:11px;padding:0;border-radius:50%;cursor:pointer;
+  border:1.5px solid var(--gold-500);background:transparent;
+  transition:background .3s var(--e);
+}
+.ba-dot[aria-current="true"]{background:var(--gold-500)}
+.ba-dot:focus-visible{outline:3px solid var(--gold-300);outline-offset:3px}
+.ba-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===================================================== LANCAMENTO (Park Ville) */
+.lanc-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);margin-top:var(--s4)}
+.lanc-fig{
+  margin:0;position:relative;overflow:hidden;background:var(--bone-100);border-radius:2px;
+  box-shadow:0 24px 60px -34px rgba(8,19,31,.55);
+}
+.lanc-fig img{display:block;width:100%;height:100%;aspect-ratio:3/2;object-fit:cover}
+.lanc-fig figcaption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:var(--s3) var(--s2) var(--s1);
+  font-family:var(--ff-display);font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--bone-50);
+  background:linear-gradient(to top,rgba(8,19,31,.86),rgba(8,19,31,0));
+}
+.lanc-cta{margin-top:var(--s4)}
+@media (max-width:720px){.lanc-grid{grid-template-columns:1fr}}
+
 /* ======================================== FAIXA FULL-BLEED (entrega)
    Capitulo que e so imagem, de borda a borda. Nao precisa de uma tela
    inteira: e ponto de respiro entre duas secoes de conteudo. */
